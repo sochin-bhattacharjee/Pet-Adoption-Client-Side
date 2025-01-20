@@ -123,7 +123,7 @@ const SharedNavbar = () => {
   }, []);
 
   return (
-    <Navbar className="mx-auto p-2 lg:pl-6">
+    <Navbar className="mx-auto p-2 lg:pl-6 sticky top-0 z-50">
       <div className="flex justify-between items-center text-blue-gray-900">
         <div className="flex items-center">
           <IconButton
