@@ -1,17 +1,28 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+  const { signIn } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Login Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      await signIn(data.email, data.password);
+      alert("Login successful!");
+      navigate("/");
+    } catch (error) {
+      alert(`Login failed: ${error.message}`);
+    }
   };
 
   return (
@@ -90,6 +101,7 @@ const Login = () => {
             Login
           </button>
         </form>
+        <GoogleLogin></GoogleLogin>
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Don't have an account?{" "}

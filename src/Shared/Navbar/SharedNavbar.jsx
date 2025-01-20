@@ -9,13 +9,24 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { ChevronDownIcon, Bars2Icon } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import logo from "../../assets/logo/logo.png";
 import { NavLink } from "react-router-dom";
 import { IoPowerSharp } from "react-icons/io5";
 import { FaHouseUser, FaUserEdit } from "react-icons/fa";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const SharedNavbar = () => {
+  const {user, logOut} = useContext(AuthContext);
+  const logout = () => {
+    logOut()
+      .then(() => {
+        console.log("Logged Out");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const profileMenuItems = [
     { label: "My Profile" },
     { label: "Edit Profile" },
@@ -39,8 +50,9 @@ const SharedNavbar = () => {
               size="sm"
               alt=""
               className="border border-gray-900 p-0.5"
-              src="https://images.unsplash.com/photo-1499714608240-22fc6ad53fb2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=76&q=80"
+              src={user ?user.image : <FaHouseUser/>}
             />
+            
             <ChevronDownIcon
               strokeWidth={2.5}
               className={`h-3 w-3 transition-transform ${
@@ -51,18 +63,63 @@ const SharedNavbar = () => {
         </MenuHandler>
         <MenuList className="p-1">
           <div className="flex flex-col gap-4 p-5">
-            <NavLink className="flex gap-2 items-center">
+            {
+              user?
+              <>
+              <NavLink className={({ isActive }) =>
+              `flex gap-2 items-center font-medium ${
+                isActive
+                  ? "text-blue-500 underline"
+                  : "text-black hover:text-blue-500"
+              }`
+            }>
               <FaHouseUser />
               {profileMenuItems[0].label}
             </NavLink>
-            <NavLink className="flex gap-2 items-center">
+            <NavLink className={({ isActive }) =>
+              `flex gap-2 items-center font-medium ${
+                isActive
+                  ? "text-blue-500 underline"
+                  : "text-black hover:text-blue-500"
+              }`
+            }>
               <FaUserEdit />
               {profileMenuItems[1].label}
             </NavLink>
-            <NavLink className="flex gap-2 items-center">
+            <button onClick={logout} className="flex gap-2 items-center hover:bg-red-100 py-1 px-2 rounded-[7px] font-medium">
               <IoPowerSharp />
               {profileMenuItems[2].label}
-            </NavLink>
+            </button>
+              </>
+              :
+              <>
+              <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              `mr-2 font-medium ${
+                isActive
+                  ? "text-blue-500 underline"
+                  : "text-black hover:text-blue-500"
+              }`
+            }
+          >
+            login
+          </NavLink>
+              <NavLink
+            to="/signUp"
+            className={({ isActive }) =>
+              `mr-2 font-medium ${
+                isActive
+                  ? "text-blue-500 underline"
+                  : "text-black hover:text-blue-500"
+              }`
+            }
+          >
+            SignUp
+          </NavLink>
+              </>
+            }
+            
           </div>
         </MenuList>
       </Menu>
@@ -77,8 +134,6 @@ const SharedNavbar = () => {
           { path: "/dashboard", label: "DashBoard" },
           { path: "/pet-listing", label: "Pet Listing" },
           { path: "/donation-campaigns", label: "Donation Campaigns" },
-          { path: "/login", label: "LogIn" },
-          { path: "/signUp", label: "SignUp" },
         ].map(({ path, label }) => (
           <NavLink
             key={path}
@@ -94,6 +149,28 @@ const SharedNavbar = () => {
             {label}
           </NavLink>
         ))}
+        {
+          !user &&<>
+          <NavLink to="/login" className={({ isActive }) =>
+              `mr-2 font-medium ${
+                isActive
+                  ? "text-blue-500 underline"
+                  : "text-black hover:text-blue-500"
+              }`
+            }>
+          Login
+        </NavLink>
+        <NavLink to="/signUp" className={({ isActive }) =>
+              `mr-2 font-medium ${
+                isActive
+                  ? "text-blue-500 underline"
+                  : "text-black hover:text-blue-500"
+              }`
+            }>
+          SignUp
+        </NavLink>
+          </>
+        }
       </ul>
     );
   }
@@ -108,6 +185,7 @@ const SharedNavbar = () => {
       () => window.innerWidth >= 960 && setIsNavOpen(false)
     );
   }, []);
+
 
   return (
     <Navbar className="mx-auto p-2 lg:pl-6 sticky top-0 z-50">

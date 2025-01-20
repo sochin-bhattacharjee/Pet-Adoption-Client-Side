@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 
 const SignUp = () => {
   const {
@@ -8,9 +11,19 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log("Sign Up Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      await createUser(data.email, data.password);
+      await updateUserProfile(data.name, data.photoUrl);
+
+      alert("Sign up successful! Welcome, " + data.name);
+      navigate("/");
+    } catch (error) {
+      alert("Sign up failed: " + error.message);
+    }
   };
 
   return (
@@ -91,6 +104,7 @@ const SignUp = () => {
               <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
             )}
           </div>
+
           <div className="mb-4 relative">
             <label
               htmlFor="password"
@@ -111,7 +125,6 @@ const SignUp = () => {
               className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
-              
             />
             <button
               type="button"
@@ -120,7 +133,6 @@ const SignUp = () => {
             >
               {showPassword ? "Hide" : "Show"}
             </button>
-            
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.password.message}
@@ -135,6 +147,7 @@ const SignUp = () => {
             Sign Up
           </button>
         </form>
+        <GoogleLogin></GoogleLogin>
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Already have an account?{" "}
