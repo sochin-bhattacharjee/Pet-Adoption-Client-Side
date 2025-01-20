@@ -17,20 +17,13 @@ import { FaHouseUser, FaUserEdit } from "react-icons/fa";
 
 const SharedNavbar = () => {
   const profileMenuItems = [
-    {
-      label: "My Profile",
-    },
-    {
-      label: "Edit Profile",
-    },
-    {
-      label: "Sign Out",
-    },
+    { label: "My Profile" },
+    { label: "Edit Profile" },
+    { label: "Sign Out" },
   ];
 
   function ProfileMenu() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
     const closeMenu = () => setIsMenuOpen(false);
 
     return (
@@ -79,34 +72,28 @@ const SharedNavbar = () => {
   function NavList() {
     return (
       <ul className="mt-2 mb-4 flex flex-col gap-5 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
-        <NavLink className="text-black mr-2 font-medium" to="">
-          Home
-        </NavLink>
-        <NavLink className="text-black mr-2 font-medium" to="">
-          DashBoard
-        </NavLink>
-        <NavLink className="text-black mr-2 font-medium" to="">
-          Pet Listing
-        </NavLink>
-        <NavLink className="text-black mr-2 font-medium" to="">
-          Donation Campaigns
-        </NavLink>
-        <NavLink
-          className="text-black font-medium"
-          to="/login"
-          size="sm"
-          variant="text"
-        >
-          <span>LogIn</span>
-        </NavLink>
-        <NavLink
-          className="text-black font-medium"
-          to="/signUp"
-          size="sm"
-          variant="text"
-        >
-          <a>SignUp</a>
-        </NavLink>
+        {[
+          { path: "/", label: "Home" },
+          { path: "/dashboard", label: "DashBoard" },
+          { path: "/pet-listing", label: "Pet Listing" },
+          { path: "/donation-campaigns", label: "Donation Campaigns" },
+          { path: "/login", label: "LogIn" },
+          { path: "/signUp", label: "SignUp" },
+        ].map(({ path, label }) => (
+          <NavLink
+            key={path}
+            to={path}
+            className={({ isActive }) =>
+              `mr-2 font-medium ${
+                isActive
+                  ? "text-blue-500 underline"
+                  : "text-black hover:text-blue-500"
+              }`
+            }
+          >
+            {label}
+          </NavLink>
+        ))}
       </ul>
     );
   }
