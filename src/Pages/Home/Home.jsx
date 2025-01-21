@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet";
 import Banner from "../../Components/Banner/Banner";
+import PetCategory from "../../Components/PetCategory/PetCategory";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
         <title>Pet Adoption | Home</title>
       </Helmet>
       <Banner></Banner>
+      <PetCategory></PetCategory>
     </div>
   );
 };

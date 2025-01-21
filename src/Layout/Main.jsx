@@ -7,7 +7,7 @@ const Main = () => {
     return (
         <div className='flex flex-col w-full min-h-screen'>
             <SharedNavbar/>
-            <div className='h-screen'>
+            <div className='min-h-screen'>
             <Outlet></Outlet>
             </div>
             <Footer/>
