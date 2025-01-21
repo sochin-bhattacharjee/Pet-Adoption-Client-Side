@@ -15,6 +15,8 @@ import { NavLink } from "react-router-dom";
 import { IoPowerSharp } from "react-icons/io5";
 import { FaHouseUser, FaUserEdit } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
+import DarkModeToggle from "../../ToggleTheme/DarkModeToggle";
+
 
 const SharedNavbar = () => {
   const {user, logOut} = useContext(AuthContext);
@@ -49,7 +51,7 @@ const SharedNavbar = () => {
               variant="circular"
               size="sm"
               alt=""
-              className="border border-gray-900 p-0.5"
+              className="border border-gray-900 dark:border-white p-0.5"
               src={user ?user.image : <FaHouseUser/>}
             />
             
@@ -117,6 +119,7 @@ const SharedNavbar = () => {
           >
             SignUp
           </NavLink>
+          
               </>
             }
             
@@ -142,7 +145,7 @@ const SharedNavbar = () => {
               `mr-2 font-medium ${
                 isActive
                   ? "text-blue-500 underline"
-                  : "text-black hover:text-blue-500"
+                  : "text-black dark:text-white hover:text-blue-500"
               }`
             }
           >
@@ -155,7 +158,7 @@ const SharedNavbar = () => {
               `mr-2 font-medium ${
                 isActive
                   ? "text-blue-500 underline"
-                  : "text-black hover:text-blue-500"
+                  : "text-black dark:text-white hover:text-blue-500"
               }`
             }>
           Login
@@ -164,7 +167,7 @@ const SharedNavbar = () => {
               `mr-2 font-medium ${
                 isActive
                   ? "text-blue-500 underline"
-                  : "text-black hover:text-blue-500"
+                  : "text-black dark:text-white hover:text-blue-500"
               }`
             }>
           SignUp
@@ -188,7 +191,7 @@ const SharedNavbar = () => {
 
 
   return (
-    <Navbar className="mx-auto p-2 lg:pl-6 sticky top-0 z-50">
+    <Navbar className="mx-auto p-2 lg:pl-6 sticky top-0 z-50 dark:bg-gray-900 rounded-none border-none">
       <div className="flex justify-between items-center text-blue-gray-900">
         <div className="flex items-center">
           <IconButton
@@ -198,11 +201,11 @@ const SharedNavbar = () => {
             onClick={toggleIsNavOpen}
             className=" mr-2 lg:hidden text-black"
           >
-            <Bars2Icon className="h-6 w-6" />
+            <Bars2Icon className="h-6 w-6 dark:text-white" />
           </IconButton>
           <NavLink
             to="/"
-            className="mr-4 ml-2 text-black cursor-pointer py-1.5 font-medium flex items-center gap-3"
+            className="mr-4 ml-2 text-black dark:text-white cursor-pointer py-1.5 font-medium flex items-center gap-3"
           >
             <img src={logo} alt="" />
             Pet Adoption
@@ -214,7 +217,8 @@ const SharedNavbar = () => {
           </div>
         </div>
 
-        <div>
+        <div className="flex sm:gap-3 items-center">
+        <DarkModeToggle/>
           <ProfileMenu />
         </div>
       </div>

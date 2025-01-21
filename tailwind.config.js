@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -7,14 +8,8 @@ export default {
     "./node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        primary: "#1d4ed8",
-        secondary: "#9333ea",
-      },
-    },
+    extend: {},
   },
-  plugins: [
-    require('@material-tailwind/react'),
-  ],
+  plugins: [],
 }
+
