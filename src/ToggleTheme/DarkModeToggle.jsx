@@ -18,7 +18,7 @@ const DarkModeToggle = () => {
 
   return (
     <div className="flex items-center">
-      <span className="mr-2 text-orange-400 dark:text-white text-[17px] sm:text-[20px]"><FaSun />
+      <span className="mr-2 text-orange-400 dark:text-gray-200 text-[17px] sm:text-[20px]"><FaSun />
       </span>
       <Switch
       className="border-2 border-amber-400"
@@ -26,7 +26,7 @@ const DarkModeToggle = () => {
         checked={!isDarkMode}
         onChange={() => setIsDarkMode(!isDarkMode)}
       />
-      <span className="ml-2 text-black text-[17px] sm:text-[20px] dark:text-yellow-100"><FaMoon /></span>
+      <span className="ml-2 text-gray-700 text-[17px] sm:text-[20px] dark:text-yellow-100"><FaMoon /></span>
     </div>
   );
 };

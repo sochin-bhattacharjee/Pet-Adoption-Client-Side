@@ -4,6 +4,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
+import { Helmet } from "react-helmet";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +28,11 @@ const Login = () => {
 
   return (
     <div className="relative flex mt-10 justify-center">
+      <Helmet>
+        <title>
+          Pet Adoption | Login
+        </title>
+      </Helmet>
       <div className="relative w-full lg:w-6/12 bg-white bg-opacity-95 p-8 rounded-lg shadow-2xl z-10">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">
           Welcome Back!
