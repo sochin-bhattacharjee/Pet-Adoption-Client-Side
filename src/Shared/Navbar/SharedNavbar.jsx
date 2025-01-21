@@ -16,6 +16,7 @@ import { IoPowerSharp } from "react-icons/io5";
 import { FaHouseUser, FaUserEdit } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
 import DarkModeToggle from "../../ToggleTheme/DarkModeToggle";
+import navImg from "../../assets/navbarImg/user.png"
 
 
 const SharedNavbar = () => {
@@ -51,10 +52,9 @@ const SharedNavbar = () => {
               variant="circular"
               size="sm"
               alt=""
-              className="border border-gray-900 dark:border-white p-0.5"
-              src={user ?user.image : <FaHouseUser/>}
+              className={`border  ${user ? "border-gray-900 dark:border-white" : "border-none"} p-0.5`}
+              src={user ? user.photoURL : navImg}
             />
-            
             <ChevronDownIcon
               strokeWidth={2.5}
               className={`h-3 w-3 transition-transform ${
