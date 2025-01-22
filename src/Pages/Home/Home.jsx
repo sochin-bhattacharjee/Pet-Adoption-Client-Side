@@ -4,6 +4,7 @@ import PetCategory from "../../Components/PetCategory/PetCategory";
 import Inspirational from "../../Components/Inspirational/Inspirational";
 import AboutUs from "../../Components/AboutUs/AboutUs";
 import Feedback from "../../Components/Feedback/Feedback";
+import ContactMe from "../../Components/ContactMe/ContactMe";
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
       <Inspirational></Inspirational>
       <AboutUs></AboutUs>
       <Feedback></Feedback>
+      <ContactMe></ContactMe>
     </div>
   );
 };

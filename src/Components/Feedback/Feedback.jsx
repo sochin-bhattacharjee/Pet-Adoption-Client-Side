@@ -1,3 +1,4 @@
+import { Button } from "@material-tailwind/react";
 import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -110,12 +111,12 @@ const Feedback = () => {
           </div>
         </div>
 
-        <button
+        <Button
           type="submit"
-          className="w-full py-2 text-white font-semibold rounded-md bg-blue-500 hover:bg-blue-400 transition-all duration-300 ease-in-out dark:bg-blue-700 dark:hover:bg-blue-600"
+          className="w-full py-2 dark:bg-gray-300 dark:text-black font-bold rounded-md transition-all duration-300 ease-in-out"
         >
           Submit Feedback
-        </button>
+        </Button>
       </form>
     </div>
   );
