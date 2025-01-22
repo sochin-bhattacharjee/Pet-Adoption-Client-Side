@@ -3,9 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   Typography,
   Button,
 } from "@material-tailwind/react";
@@ -67,7 +65,7 @@ const PetCategory = () => {
               <Typography className="dark:text-gray-300">
                 {pet.shortDescription || "No description available."}
               </Typography>
-              <Button className="dark:bg-gray-300 dark:text-black">Adopt Now</Button>
+              <Button className="dark:bg-gray-300 dark:text-black">See Details</Button>
             </CardBody>
           </Card>
           ))}
