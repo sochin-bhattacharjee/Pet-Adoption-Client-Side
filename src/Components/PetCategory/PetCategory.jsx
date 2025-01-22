@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
 
 const PetCategory = () => {
   const axiosSecure = useAxiosSecure();
@@ -22,15 +30,15 @@ const PetCategory = () => {
   if (error) return <p>Error fetching pets: {error.message}</p>;
 
   return (
-    <section className="py-10 bg-gray-100 dark:bg-gray-800">
-      <div className="container mx-auto">
-        <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
+    <section className=" my-10">
+      <div className="mx-auto">
+        <h2 className="lg:text-2xl xl:text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">
           Pet Categories
         </h2>
 
-        <div className="flex justify-center gap-4 mb-8">
+        <div className="flex justify-center gap-2 md:gap-4 mb-2 h-c w-[95%] mx-auto">
           {["Cat", "Dog", "Rabbit", "Fish", "Cow"].map((category) => (
-            <button
+            <Button
               key={category}
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-md font-medium ${
@@ -40,30 +48,28 @@ const PetCategory = () => {
               }`}
             >
               {category}
-            </button>
+            </Button>
           ))}
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-[85%] mx-auto gap-5">
           {filteredPets.map((pet) => (
-            <div
-              key={pet._id}
-              className="p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md text-center hover:shadow-lg transition duration-300"
-            >
-              <img
+            <Card key={pet._id} className="mt-6 w-full h-full dark:bg-gray-900">
+            <div color="blue-gray" className="h-48 p-4 rounded-xl">
+              <img className="w-full h-full object-cover rounded-xl"
                 src={pet.image}
-                alt={pet.name}
-                className="w-20 h-20 mx-auto mb-3 rounded-full"
+                alt="card-image"
               />
-              <h3 className="text-lg font-semibold text-gray-700 dark:text-white">
-                {pet.name}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Category: {pet.category}
-              </p>
-              <button className="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-4 rounded-full">
-                Adopt Me
-              </button>
             </div>
+            <CardBody className="flex flex-col justify-between py-4 flex-grow lg:gap-2">
+              <Typography variant="h5" color="" className="mb-2 dark:text-white">
+                {pet.name}
+              </Typography>
+              <Typography className="dark:text-gray-300">
+                {pet.shortDescription || "No description available."}
+              </Typography>
+              <Button className="dark:bg-gray-300 dark:text-black">Adopt Now</Button>
+            </CardBody>
+          </Card>
           ))}
         </div>
       </div>
