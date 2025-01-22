@@ -135,7 +135,7 @@ const SharedNavbar = () => {
         {[
           { path: "/", label: "Home" },
           { path: "/dashboard", label: "DashBoard" },
-          { path: "/pet-listing", label: "Pet Listing" },
+          { path: "/petListing", label: "Pet Listing" },
           { path: "/donation-campaigns", label: "Donation Campaigns" },
         ].map(({ path, label }) => (
           <NavLink
