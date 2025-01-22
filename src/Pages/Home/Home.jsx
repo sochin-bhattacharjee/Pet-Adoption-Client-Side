@@ -3,6 +3,7 @@ import Banner from "../../Components/Banner/Banner";
 import PetCategory from "../../Components/PetCategory/PetCategory";
 import Inspirational from "../../Components/Inspirational/Inspirational";
 import AboutUs from "../../Components/AboutUs/AboutUs";
+import Feedback from "../../Components/Feedback/Feedback";
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <PetCategory></PetCategory>
       <Inspirational></Inspirational>
       <AboutUs></AboutUs>
+      <Feedback></Feedback>
     </div>
   );
 };
