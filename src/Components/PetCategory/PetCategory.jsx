@@ -7,10 +7,12 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 const PetCategory = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedCategory, setSelectedCategory] = useState("Cat");
+  const navigate = useNavigate();
 
   const fetchPets = async () => {
     const response = await axiosSecure.get("/pets");
@@ -41,7 +43,7 @@ const PetCategory = () => {
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-md font-medium ${
                 selectedCategory === category
-                  ? "bg-blue-500 text-white"
+                  ? "bg-black dark:bg-white text-white dark:text-black font-bold"
                   : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white"
               }`}
             >
@@ -65,7 +67,7 @@ const PetCategory = () => {
               <Typography className="dark:text-gray-300">
                 {pet.shortDescription || "No description available."}
               </Typography>
-              <Button className="dark:bg-gray-300 dark:text-black">See Details</Button>
+              <Button onClick={() => navigate(`/pet/${pet._id}`)} className="dark:bg-gray-300 dark:text-black">See Details</Button>
             </CardBody>
           </Card>
           ))}

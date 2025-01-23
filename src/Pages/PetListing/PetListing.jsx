@@ -7,6 +7,7 @@ import {
     Button,
   } from "@material-tailwind/react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
 
 const PetListing = () => {
   const [pets, setPets] = useState([]);
@@ -14,6 +15,7 @@ const PetListing = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -116,7 +118,7 @@ const PetListing = () => {
               <Typography className="dark:text-gray-300">
                 <span className="text-black dark:text-white">Category : </span>{pet.category || "No description available."}
               </Typography>
-              <Button className="dark:bg-gray-300 dark:text-black">See Details</Button>
+              <Button onClick={() => navigate(`/pet/${pet._id}`)} className="dark:bg-gray-300 dark:text-black">See Details</Button>
             </CardBody>
           </Card>
           ))
