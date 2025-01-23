@@ -35,22 +35,22 @@ const PetDetails = () => {
             <img
               src={pet.image}
               alt={pet.name}
-              className="w-full h-auto rounded-lg shadow-lg"
+              className="w-full h-[200px] md:h-[350px] lg:h-[500px] rounded-lg shadow-lg object-cover"
             />
           </div>
 
           <div className="w-full md:w-1/2 space-y-4">
-            <h2 className="text-3xl font-bold text-gray-800">{pet.name}</h2>
-            <p className="text-xl text-gray-600">Age: {pet.age}</p>
-            <p className="text-xl text-gray-600">Location: {pet.location}</p>
-            <p className="text-xl text-gray-600">Category: {pet.category}</p>
-            <p className="text-lg text-gray-700">{pet.longDescription}</p>
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">{pet.name}</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-200"><span className="font-semibold dark:text-white">Age :</span> {pet.age}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-200"><span className="font-semibold dark:text-white">Location :</span> {pet.location}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-200"><span className="font-semibold dark:text-white">Category :</span> {pet.category}</p>
+            <p className="text-lg text-gray-700 dark:text-gray-200">{pet.longDescription}</p>
 
-            <p className="text-md text-gray-500 italic">{pet.shortDescription}</p>
+            <p className="text-md text-gray-500 italic dark:text-gray-200">{pet.shortDescription}</p>
 
             <Button
               onClick={handleAdoptClick}
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
+              className="dark:bg-white text-white dark:text-black py-2 px-4 rounded-md transition font-bold"
             >
               Adopt
             </Button>

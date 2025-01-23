@@ -72,7 +72,7 @@ const Modal = ({ pet, onClose }) => {
           </div>
           <Button 
             type="submit" 
-            className="w-full dark:bg-gray-400 dark:text-black text-white font-bold py-3 rounded-md transition-all duration-300"
+            className="w-full dark:bg-gray-200 dark:text-black text-white font-bold py-3 rounded-md transition-all duration-300"
           >
             Submit Request
           </Button>
