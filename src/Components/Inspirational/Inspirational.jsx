@@ -1,5 +1,6 @@
 import { Button } from "@material-tailwind/react";
 import img from "../../assets/Banner/inspirational.jpg";
+import { Link } from "react-router-dom";
 
 const Inspirational = () => {
   return (
@@ -21,11 +22,13 @@ const Inspirational = () => {
               just saving a life—you're gaining a friend for life. Start your
               journey today and make a difference!
             </p>
+            <Link to="/petListing">
             <Button
               className=" text-white dark:bg-white dark:text-black font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300"
             >
               Adopt a Pet Now
             </Button>
+            </Link>
           </div>
         </div>
       </div>

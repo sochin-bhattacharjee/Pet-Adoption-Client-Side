@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 import { Helmet } from "react-helmet";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
   const {
@@ -14,14 +15,24 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
 
   const onSubmit = async (data) => {
     try {
       await createUser(data.email, data.password);
       await updateUserProfile(data.name, data.photoUrl);
-
-      alert("Sign up successful! Welcome, " + data.name);
-      navigate("/");
+      const userInfo = {
+        name: data.name,
+        email: data.email,
+      };
+      await axiosPublic.post("/users", userInfo)
+      .then((res) => {
+        if (res.data.insertedId) {
+          console.log("User inserted successfully");
+          alert("Sign up successful! Welcome, " + data.name);
+          navigate("/");
+        }
+      })
     } catch (error) {
       alert("Sign up failed: " + error.message);
     }

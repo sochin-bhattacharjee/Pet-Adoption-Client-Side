@@ -1,15 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { FaGoogle } from "react-icons/fa";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const GoogleLogin = () => {
     const {signInWithGoogle} = useAuth();
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic();
     const handleGoogleSignIn = () => {
         signInWithGoogle()
         .then(result => {
             alert(result ,"logged in");
-            navigate("/");
+            const userInfo = {
+                name: result.user.displayName,
+                email: result.user.email,
+            };
+            axiosPublic.post("/users", userInfo)
+            .then((res) => {
+                if (res.data.insertedId) {
+                    console.log("User inserted successfully");
+                }
+                navigate("/");
+            })
         })
     }
     return (
