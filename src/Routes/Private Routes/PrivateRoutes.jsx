@@ -1,13 +1,12 @@
-import  { useContext } from 'react';
-import { AuthContext } from '../../Provider/AuthProvider';
 import { Navigate, useLocation } from 'react-router-dom';
+import useAuth from '../../hooks/useAuth';
 
 const PrivateRoutes = ({children}) => {
-    const {user, loading} = useContext(AuthContext);
+    const {user, loading} = useAuth();
     const location = useLocation();
 
     if(loading){
-        return <progress className='progress w-56'></progress>
+        return <progress className='progress w-full'></progress>
     }
 
     if(user){

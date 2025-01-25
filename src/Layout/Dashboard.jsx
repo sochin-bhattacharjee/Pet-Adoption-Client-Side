@@ -1,9 +1,12 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import useAuth from "../hooks/useAuth";
+import useAdmin from "../hooks/useAdmin";
+
 
 const Dashboard = () => {
-  const isAdmin = true;
+  const [isAdmin] = useAdmin();
+  console.log(isAdmin)
   const {user} = useAuth();
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
