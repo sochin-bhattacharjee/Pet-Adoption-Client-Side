@@ -38,7 +38,7 @@ const Modal = ({ pet, onClose }) => {
 
   return (
     <div className="fixed inset-0 pt-12 sm:pt-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-40">
-      <div className="bg-white dark:bg-gray-900 p-10 rounded-xl w-96 max-w-lg shadow-lg relative transition-transform transform scale-50 md:scale-75 lg:scale-95 z-60">
+      <div className="bg-white dark:bg-gray-900 p-10 rounded-xl w-96 max-w-lg shadow-lg relative transition-transform transform scale-50 lg:scale-90 z-60">
         <button 
           onClick={onClose} 
           className="absolute top-2 right-2 text-3xl font-bold text-gray-600 hover:text-gray-700 focus:outline-none"
@@ -55,7 +55,7 @@ const Modal = ({ pet, onClose }) => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               required
-              className="w-full border-2 border-gray-300 dark:border-gray-700 rounded-md px-4 py-3 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 dark:bg-gray-800"
+              className="w-full border-2 border-gray-300 dark:border-gray-700 rounded-md px-4 py-3 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 dark:bg-gray-800 dark:text-white"
               placeholder="Enter your phone number"
             />
           </div>
@@ -66,7 +66,7 @@ const Modal = ({ pet, onClose }) => {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
-              className="w-full border-2 border-gray-300 dark:border-gray-700 rounded-md px-4 py-3 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 dark:bg-gray-800"
+              className="w-full border-2 border-gray-300 dark:border-gray-700 rounded-md px-4 py-3 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 dark:bg-gray-800 dark:text-white"
               placeholder="Enter your address"
             ></textarea>
           </div>
