@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { FaGoogle } from "react-icons/fa";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const GoogleLogin = () => {
     const {signInWithGoogle} = useAuth();
@@ -10,7 +11,14 @@ const GoogleLogin = () => {
     const handleGoogleSignIn = () => {
         signInWithGoogle()
         .then(result => {
-            alert(result ,"logged in");
+            // alert(result ,"logged in");
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Login successful! Welcome",
+                showConfirmButton: false,
+                timer: 1500
+              });
             const userInfo = {
                 name: result.user.displayName,
                 email: result.user.email,
@@ -18,7 +26,7 @@ const GoogleLogin = () => {
             axiosPublic.post("/users", userInfo)
             .then((res) => {
                 if (res.data.insertedId) {
-                    console.log("User inserted successfully");
+                    console.log("user created");
                 }
                 navigate("/");
             })

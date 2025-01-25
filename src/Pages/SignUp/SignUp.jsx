@@ -5,6 +5,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 import { Helmet } from "react-helmet";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const {
@@ -28,13 +29,24 @@ const SignUp = () => {
       await axiosPublic.post("/users", userInfo)
       .then((res) => {
         if (res.data.insertedId) {
-          console.log("User inserted successfully");
-          alert("Sign up successful! Welcome, " + data.name);
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Sign up successful! Welcome",
+            showConfirmButton: false,
+            timer: 1500
+          });
           navigate("/");
         }
       })
     } catch (error) {
-      alert("Sign up failed: " + error.message);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Sign up failed",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   };
 

@@ -44,6 +44,7 @@ const PetDetails = () => {
             <p className="text-xl text-gray-600 dark:text-gray-200"><span className="font-semibold dark:text-white">Age :</span> {pet.age}</p>
             <p className="text-xl text-gray-600 dark:text-gray-200"><span className="font-semibold dark:text-white">Location :</span> {pet.location}</p>
             <p className="text-xl text-gray-600 dark:text-gray-200"><span className="font-semibold dark:text-white">Category :</span> {pet.category}</p>
+            <p className="text-xl text-gray-600 dark:text-gray-200"><span className="font-semibold dark:text-white">Breed :</span> {pet.breed}</p>
             <p className="text-lg text-gray-700 dark:text-gray-200">{pet.longDescription}</p>
 
             <p className="text-md text-gray-500 italic dark:text-gray-200">{pet.shortDescription}</p>

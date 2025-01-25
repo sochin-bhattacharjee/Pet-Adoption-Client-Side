@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 import { Helmet } from "react-helmet";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,10 +20,22 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       await signIn(data.email, data.password);
-      alert("Login successful!");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login successful! Welcome",
+        showConfirmButton: false,
+        timer: 1500
+      });
       navigate("/");
     } catch (error) {
-      alert(`Login failed: ${error.message}`);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Login Failed!",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   };
 

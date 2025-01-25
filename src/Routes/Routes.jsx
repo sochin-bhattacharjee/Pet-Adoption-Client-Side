@@ -14,6 +14,9 @@ import AdoptionRequest from './../Pages/Dashboard/AdoptionRequest/AdoptionReques
 import CreateDonations from './../Pages/Dashboard/CreateDonations/CreateDonations';
 import MyDonationsCampaign from './../Pages/Dashboard/MyDonationsCampaign/MyDonationsCampaign';
 import MyDonations from './../Pages/Dashboard/MyDonations/MyDonations';
+import AllDonations from "../Pages/Dashboard/AllDonations/AllDonations";
+import AllUser from './../Pages/Dashboard/AllUser/AllUser';
+import AllPets from "../Pages/Dashboard/AllPets/AllPets";
 
 export const router = createBrowserRouter([
     {
@@ -69,6 +72,18 @@ export const router = createBrowserRouter([
             {
                 path:"myDonations",
                 element:<MyDonations></MyDonations>
+            },
+            {
+                path:"allUser",
+                element:<AllUser></AllUser>
+            },
+            {
+                path:"allPets",
+                element:<AllPets></AllPets>
+            },
+            {
+                path:"allDonations",
+                element:<AllDonations></AllDonations>
             },
         ]
     },
