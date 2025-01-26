@@ -118,7 +118,7 @@ const Dashboard = () => {
         </ul>
       </div>
 
-      <div className="md:w-3/4 w-full bg-gray-200 p-6">
+      <div className="md:w-3/4 w-full bg-gray-100 p-6">
         <Outlet />
       </div>
     </div>

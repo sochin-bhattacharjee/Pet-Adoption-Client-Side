@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import { Card, Typography } from "@material-tailwind/react";
+import { Button, Card, Typography } from "@material-tailwind/react";
+import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
 const AllUser = () => {
   const axiosSecure = useAxiosSecure();
@@ -39,27 +40,48 @@ const AllUser = () => {
   };
 
   const handleMakeAdmin = (user) => {
-    axiosSecure.patch(`/users/admin/${user._id}`)
-    .then(res => {
-        if(res.data.modifiedCount > 0){
-            refetch();
-            Swal.fire({
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Do you want to make ${user.name} an admin?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, make admin!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.patch(`/users/admin/${user._id}`)
+          .then(res => {
+            if (res.data.modifiedCount > 0) {
+              refetch();
+              Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 title: `${user.name} is an Admin Now!`,
                 showConfirmButton: false,
-                timer: 1500
-              })
-        }
-    })
-  }
+                timer: 1500,
+              });
+            }
+          })
+          .catch(err => {
+            console.error("Error making admin:", err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong!',
+            });
+          });
+      }
+    });
+  };
+  
   return (
     <div>
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl">All User</h2>
-        <h2 className="text-2xl">Total User : {users.length}</h2>
+      <div className="flex justify-between items-center sm:my-8">
+        <h2 className="text-xl font-semibold">All User</h2>
+        <h2 className="text-xl font-semibold">Total User : {users.length}</h2>
       </div>
-      <Card className="h-full w-full overflow-scroll">
+      <Card className="h-full w-full overflow-scroll mt-5">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>
@@ -143,10 +165,10 @@ const AllUser = () => {
                             <Typography
                                 variant="small"
                                 color="blue-gray"
-                                className="font-normal"
+                                className="font-bold text-center"
                             >
                                 {
-                                    user.role === 'admin' ? 'Admin' : <button onClick={() => handleMakeAdmin(user)} className="btn btn-primary">Make Admin</button>
+                                    user.role === 'admin' ? 'Admin' : <Button onClick={() => handleMakeAdmin(user)} className="font-normal px-2 py-1">Make Admin</Button>
                                 }
                             </Typography>
                         </td>
@@ -156,7 +178,7 @@ const AllUser = () => {
                                 color="blue-gray"    
                                 className="font-normal"
                             >
-                                <button onClick={() => handleDelete(user)} className="btn btn-error">Delete</button>
+                                <button onClick={() => handleDelete(user)} className="text-red-600 bg-red-200 text-lg p-1 rounded-full"><MdDeleteForever /></button>
                             </Typography>
                         </td>
                     </tr>            
