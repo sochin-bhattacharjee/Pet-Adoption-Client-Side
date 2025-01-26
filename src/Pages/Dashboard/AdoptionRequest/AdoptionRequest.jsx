@@ -15,12 +15,11 @@ const AdoptionRequest = () => {
   const [adoptionRequests, setAdoptionRequests] = useState([]);
   const axiosSecure = useAxiosSecure();
 
-  // Fetch adoption requests for the logged-in user's pets
   useEffect(() => {
     const fetchAdoptionRequests = async () => {
       try {
         const response = await axiosSecure.get("/adoptions");
-        setAdoptionRequests(response.data); // API response
+        setAdoptionRequests(response.data);
       } catch (error) {
         console.error("Failed to fetch adoption requests:", error);
       }
@@ -31,13 +30,11 @@ const AdoptionRequest = () => {
 
   const handleAccept = async (requestId, petId) => {
     try {
-      // Send a request to accept the adoption
       await axiosSecure.patch(`/adoptions/${requestId}`, {
         status: "accepted",
       });
       alert("Request accepted!");
 
-      // Update the local state by marking the pet as adopted
       setAdoptionRequests((prev) =>
         prev.filter((request) => request._id !== requestId)
       );
@@ -49,13 +46,10 @@ const AdoptionRequest = () => {
 
   const handleReject = async (requestId) => {
     try {
-      // Send a request to reject the adoption
       await axiosSecure.patch(`/adoptions/${requestId}`, {
         status: "rejected",
       });
       alert("Request rejected!");
-
-      // Update the local state by removing the rejected request
       setAdoptionRequests((prev) =>
         prev.filter((request) => request._id !== requestId)
       );
