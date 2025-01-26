@@ -4,6 +4,7 @@ import useAuth from './../../hooks/useAuth';
 import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { IoIosCloseCircle } from "react-icons/io";
+import Swal from "sweetalert2";
 
 const Modal = ({ pet, onClose }) => {
   const [phone, setPhone] = useState("");
@@ -25,11 +26,16 @@ const Modal = ({ pet, onClose }) => {
       addedBy: pet.addedBy,
       dateAdded: new Date().toISOString()
     };
-  
+
     try {
       const response = await axiosSecure.post("/adoptions", adoptionData);
       if (response.data.success) {
-        alert("Adoption request submitted successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Adoption request submitted successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
         onClose();
         navigate("/petListing");
       }
@@ -37,7 +43,6 @@ const Modal = ({ pet, onClose }) => {
       console.error("Error submitting adoption request:", error);
     }
   };
-  
 
   return (
     <div className="fixed inset-0 pt-12 sm:pt-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-40">
@@ -50,6 +55,26 @@ const Modal = ({ pet, onClose }) => {
         </button>
         <h3 className="text-2xl font-semibold text-center mb-6 text-blue-600">Adopt {pet.name}</h3>
         <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label htmlFor="petName" className="text-sm font-medium text-gray-700 dark:text-gray-400">Pet Name</label>
+            <input
+              type="text"
+              id="petName"
+              value={pet.name}
+              readOnly
+              className="w-full border-2 border-gray-300 dark:border-gray-700 rounded-md px-4 py-3 mt-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-400"
+            />
+          </div>
+          <div>
+            <label htmlFor="petAge" className="text-sm font-medium text-gray-700 dark:text-gray-400">Pet Age</label>
+            <input
+              type="text"
+              id="petAge"
+              value={pet.age}
+              readOnly
+              className="w-full border-2 border-gray-300 dark:border-gray-700 rounded-md px-4 py-3 mt-2 bg-gray-100 dark:bg-gray-800 dark:text-gray-400"
+            />
+          </div>
           <div>
             <label htmlFor="phone" className="text-sm font-medium text-gray-700 dark:text-gray-400">Phone Number</label>
             <input

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Typography, Button } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const TABLE_HEAD = [
   "Pet Name",
@@ -33,7 +34,12 @@ const AdoptionRequest = () => {
       await axiosSecure.patch(`/adoptions/${requestId}`, {
         status: "accepted",
       });
-      alert("Request accepted!");
+      Swal.fire({
+        icon: "success",
+        title: "Request accepted!",
+        showConfirmButton: false,
+        timer: 1500
+      });
 
       setAdoptionRequests((prev) =>
         prev.filter((request) => request._id !== requestId)
@@ -49,7 +55,12 @@ const AdoptionRequest = () => {
       await axiosSecure.patch(`/adoptions/${requestId}`, {
         status: "rejected",
       });
-      alert("Request rejected!");
+      Swal.fire({
+        icon: "warning",
+        title: "Request rejected!",
+        showConfirmButton: false,
+        timer: 1500
+      });
       setAdoptionRequests((prev) =>
         prev.filter((request) => request._id !== requestId)
       );

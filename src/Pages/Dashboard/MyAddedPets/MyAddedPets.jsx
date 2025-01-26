@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Card, Typography, Button } from "@material-tailwind/react";
-import useAxiosSecure from "../../../hooks/useAxiosSecure"; // Custom Axios hook
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useTable, useSortBy, usePagination } from "react-table";
 
 const MyAddedPets = () => {
   const [petsData, setPetsData] = useState([]);
   const axiosSecure = useAxiosSecure();
 
-  // Fetch pets data when component mounts
   useEffect(() => {
     const fetchPets = async () => {
       try {
         const response = await axiosSecure.get("/my-added-pets");
-        setPetsData(response.data); // Set the fetched data
+        setPetsData(response.data);
       } catch (error) {
         console.error("Error fetching pets:", error);
       }
