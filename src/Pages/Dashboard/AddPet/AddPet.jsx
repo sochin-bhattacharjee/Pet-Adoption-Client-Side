@@ -21,39 +21,43 @@ const AddPet = () => {
 
   const onSubmit = async (data) => {
     try {
-      let imageUrl = "";
+      let image = "";
 
       if (useImageURL) {
-        imageUrl = data.imageUrl;
+        image = data.image;
       } else {
         const formData = new FormData();
         formData.append("image", data.image[0]);
+        console.log("FormData:", formData);
 
         const imgResponse = await fetch(
-          `https://api.imgbb.com/1/upload?key=YOUR_IMGBB_API_KEY`,
+          `https://api.imgbb.com/1/upload?key=bbc6e1780f1c73f169600adaa4c05e09`,
           {
             method: "POST",
             body: formData,
           }
         );
+
         const imgData = await imgResponse.json();
 
         if (!imgData.success) {
           throw new Error("Image upload failed");
         }
-        imageUrl = imgData.data.url;
+        image = imgData.data.url;
       }
 
       const petData = {
         name: data.name,
         age: data.age,
         category: data.category.value,
+        breed: data.breed,
         location: data.location,
         shortDescription: data.shortDescription,
         longDescription: data.longDescription,
-        imageUrl: imageUrl,
+        image: image,
         adopted: false,
-        createdAt: new Date().toISOString(),
+        addedBy: "sochin.cs@gmail.com",
+        dateAdded: new Date().toISOString(),
       };
 
       const response = await axiosSecure.post("/pets", petData);
@@ -61,7 +65,6 @@ const AddPet = () => {
         alert("Pet added successfully!");
       }
     } catch (error) {
-      console.error("Error adding pet:", error);
       alert("Something went wrong. Please try again.");
     }
   };
@@ -111,10 +114,10 @@ const AddPet = () => {
             <label className="block text-sm font-medium mb-2">Image URL</label>
             <input
               type="url"
-              {...register("imageUrl", { required: useImageURL && "Image URL is required" })}
+              {...register("image", { required: useImageURL && "Image URL is required" })}
               className="block w-full border rounded-lg p-2"
             />
-            {errors.imageUrl && <p className="text-red-500 text-sm">{errors.imageUrl.message}</p>}
+            {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
           </div>
         )}
 
@@ -146,6 +149,16 @@ const AddPet = () => {
             onChange={(selected) => setValue("category", selected)}
           />
           {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2">Pet Breed</label>
+          <input
+            type="text"
+            {...register("breed", { required: "Breed is required" })}
+            className="block w-full border rounded-lg p-2"
+          />
+          {errors.breed && <p className="text-red-500 text-sm">{errors.breed.message}</p>}
         </div>
 
         <div className="mb-4">
