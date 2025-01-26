@@ -18,6 +18,7 @@ import AllDonations from "../Pages/Dashboard/AllDonations/AllDonations";
 import AllUser from './../Pages/Dashboard/AllUser/AllUser';
 import AllPets from "../Pages/Dashboard/AllPets/AllPets";
 import Welcome from "../Pages/Dashboard/Welcome/Welcome";
+import PetUpdate from "../Pages/Dashboard/PetUpdate/PetUpdate";
 
 export const router = createBrowserRouter([
     {
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
             {
                 path:"welcome",
                 element:<Welcome></Welcome>
+            },
+            {
+                path:"update-pet/:petId",
+                element:<PetUpdate></PetUpdate>
             },
         ]
     },

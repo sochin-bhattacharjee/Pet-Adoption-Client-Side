@@ -6,12 +6,14 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 const AddPet = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const axiosSecure = useAxiosSecure();
   const [useImageURL, setUseImageURL] = useState(false);
   const navigate = useNavigate();
+  const {user} = useAuth();
 
   const petCategories = [
     { value: "Dog", label: "Dog" },
@@ -59,7 +61,7 @@ const AddPet = () => {
         longDescription: data.longDescription,
         image: image,
         adopted: false,
-        addedBy: "sochin.cs@gmail.com",
+        addedBy: user.email,
         dateAdded: new Date().toISOString(),
       };
 
