@@ -134,7 +134,7 @@ const SharedNavbar = () => {
       <ul className="mt-2 mb-4 flex flex-col gap-5 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
         {[
           { path: "/", label: "Home" },
-          { path: "/dashboard", label: "DashBoard" },
+          { path: "/dashboard/welcome", label: "DashBoard" },
           { path: "/petListing", label: "Pet Listing" },
           { path: "/donation-campaigns", label: "Donation Campaigns" },
         ].map(({ path, label }) => (
