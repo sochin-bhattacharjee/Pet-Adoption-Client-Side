@@ -4,11 +4,14 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AddPet = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
   const axiosSecure = useAxiosSecure();
   const [useImageURL, setUseImageURL] = useState(false);
+  const navigate = useNavigate();
 
   const petCategories = [
     { value: "Dog", label: "Dog" },
@@ -62,10 +65,21 @@ const AddPet = () => {
 
       const response = await axiosSecure.post("/pets", petData);
       if (response.status === 201) {
-        alert("Pet added successfully!");
+        Swal.fire({
+          icon: "success",
+          title: "Pet added successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        navigate('/dashboard/myAddPet');
       }
     } catch (error) {
-      alert("Something went wrong. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Failed to add pet",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   };
 

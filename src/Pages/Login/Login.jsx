@@ -21,7 +21,6 @@ const Login = () => {
     try {
       await signIn(data.email, data.password);
       Swal.fire({
-        position: "top-end",
         icon: "success",
         title: "Login successful! Welcome",
         showConfirmButton: false,
@@ -30,7 +29,6 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       Swal.fire({
-        position: "top-end",
         icon: "error",
         title: "Login Failed!",
         showConfirmButton: false,

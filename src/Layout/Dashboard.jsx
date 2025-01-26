@@ -10,17 +10,17 @@ const Dashboard = () => {
   console.log(isAdmin)
   const {user} = useAuth();
   return (
-    <div className="min-h-screen flex flex-col sm:flex-row">
+    <div className="sm:min-h-screen flex flex-col sm:flex-row">
       <Helmet>
         <title>Pet Adoption | Dashboard</title>
       </Helmet>
 
       <div className="sm:w-1/4 w-full bg-white text-white p-4 space-y-4">
         <Link to="/dashboard">
-          <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+          <h2 className="text-2xl font-bold text-black mb-4">Dashboard</h2>
         </Link>
         <div>
-            <img className="w-16 h-16 rounded-full mx-auto" src={user?.photoURL} alt="" />
+            <img className="w-16 h-16 rounded-full mx-auto object-cover" src={user?.photoURL} alt="" />
             <p className="text-center font-semibold text-black">{user?.displayName}</p>
             {
                 isAdmin && <p className="text-center font-semibold text-black">Admin</p>

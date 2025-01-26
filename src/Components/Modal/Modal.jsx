@@ -22,8 +22,10 @@ const Modal = ({ pet, onClose }) => {
       userEmail: user.email,
       phone,
       address,
+      addedBy: pet.addedBy,
+      dateAdded: new Date().toISOString()
     };
-
+  
     try {
       const response = await axiosSecure.post("/adoptions", adoptionData);
       if (response.data.success) {
@@ -35,6 +37,7 @@ const Modal = ({ pet, onClose }) => {
       console.error("Error submitting adoption request:", error);
     }
   };
+  
 
   return (
     <div className="fixed inset-0 pt-12 sm:pt-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-40">

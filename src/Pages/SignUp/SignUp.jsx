@@ -26,26 +26,23 @@ const SignUp = () => {
         name: data.name,
         email: data.email,
       };
-      await axiosPublic.post("/users", userInfo)
-      .then((res) => {
+      await axiosPublic.post("/users", userInfo).then((res) => {
         if (res.data.insertedId) {
           Swal.fire({
-            position: "top-end",
             icon: "success",
             title: "Sign up successful! Welcome",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
           });
           navigate("/");
         }
-      })
+      });
     } catch (error) {
       Swal.fire({
-        position: "top-end",
         icon: "error",
         title: "Sign up failed",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
     }
   };
@@ -53,9 +50,7 @@ const SignUp = () => {
   return (
     <div className="flex mt-10 justify-center">
       <Helmet>
-        <title>
-          Pet Adoption | SignUp
-        </title>
+        <title>Pet Adoption | SignUp</title>
       </Helmet>
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">
@@ -150,6 +145,11 @@ const SignUp = () => {
                   value: 6,
                   message: "Password must be at least 6 characters long",
                 },
+                pattern: {
+                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                  message:
+                    "Password must contain at least 6 characters, one uppercase letter, one lowercase letter, one number, and one special character",
+                },
               })}
               className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
                 errors.password ? "border-red-500" : "border-gray-300"
@@ -176,7 +176,7 @@ const SignUp = () => {
             Sign Up
           </button>
         </form>
-        <GoogleLogin></GoogleLogin>
+        <GoogleLogin />
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Already have an account?{" "}
