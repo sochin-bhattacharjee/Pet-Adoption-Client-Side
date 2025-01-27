@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { Card, Typography } from '@material-tailwind/react';
 
 const AllDonations = () => {
   const axiosSecure = useAxiosSecure();
@@ -69,57 +70,90 @@ const AllDonations = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading donations.</div>;
 
+  const TABLE_HEAD = ['Pet', 'Max Donation', 'Last Date', 'Status', 'Actions'];
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h2 className="text-3xl font-bold text-center mb-6">All Donation Campaigns</h2>
-      <table className="min-w-full bg-white shadow-md rounded-lg">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="py-3 px-6 text-left">Pet</th>
-            <th className="py-3 px-6 text-left">Max Donation</th>
-            <th className="py-3 px-6 text-left">Last Date</th>
-            <th className="py-3 px-6 text-left">Status</th>
-            <th className="py-3 px-6 text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {donations.map((donation) => (
-            <tr key={donation._id} className="border-b hover:bg-gray-50">
-              <td className="py-3 px-6">{donation.shortDescription}</td>
-              <td className="py-3 px-6">${donation.maxDonationAmount}</td>
-              <td className="py-3 px-6">{donation.lastDate}</td>
-              <td className="py-3 px-6">{donation.paused ? 'Paused' : 'Active'}</td>
-              <td className="py-3 px-6 text-center">
-                <button
-                  onClick={() =>
-                    pauseUnpauseMutation.mutate({
-                      id: donation._id,
-                      paused: donation.paused,
-                    })
-                  }
-                  className={`px-4 py-2 text-white ${donation.paused ? 'bg-green-500' : 'bg-red-500'} rounded-md`}
-                >
-                  {donation.paused ? 'Unpause' : 'Pause'}
-                </button>
-
-                <button
-                  onClick={() => handleEdit(donation)}
-                  className="px-4 py-2 mx-2 text-white bg-blue-500 rounded-md"
-                >
-                  Edit
-                </button>
-
-                <button
-                  onClick={() => deleteMutation.mutate(donation._id)}
-                  className="px-4 py-2 text-white bg-red-500 rounded-md"
-                >
-                  Delete
-                </button>
-              </td>
+      <Card className="h-full w-full overflow-scroll">
+        <table className="w-full min-w-max table-auto text-left">
+          <thead>
+            <tr>
+              {TABLE_HEAD.map((head) => (
+                <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal leading-none opacity-70"
+                  >
+                    {head}
+                  </Typography>
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {donations.map((donation) => {
+              const isLast = donations.indexOf(donation) === donations.length - 1;
+              const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+
+              return (
+                <tr key={donation._id}>
+                  <td className={classes}>
+                    <Typography variant="small" color="blue-gray" className="font-normal">
+                      {donation.shortDescription}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography variant="small" color="blue-gray" className="font-normal">
+                      ${donation.maxDonationAmount}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography variant="small" color="blue-gray" className="font-normal">
+                      {donation.lastDate}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Typography variant="small" color="blue-gray" className="font-normal">
+                      {donation.paused ? 'Paused' : 'Active'}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex justify-center gap-2">
+                      <button
+                        onClick={() =>
+                          pauseUnpauseMutation.mutate({
+                            id: donation._id,
+                            paused: donation.paused,
+                          })
+                        }
+                        className={`px-4 py-2 text-white ${donation.paused ? 'bg-green-500' : 'bg-red-500'} rounded-md`}
+                      >
+                        {donation.paused ? 'Unpause' : 'Pause'}
+                      </button>
+
+                      <button
+                        onClick={() => handleEdit(donation)}
+                        className="px-4 py-2 text-white bg-blue-500 rounded-md"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => deleteMutation.mutate(donation._id)}
+                        className="px-4 py-2 text-white bg-red-500 rounded-md"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Card>
     </div>
   );
 };
