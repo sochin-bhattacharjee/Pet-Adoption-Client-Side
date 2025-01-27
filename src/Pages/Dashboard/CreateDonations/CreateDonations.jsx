@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import useAuth from '../../../hooks/useAuth';
 
 const CreateDonations = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     petPicture: null,
     maxDonationAmount: '',
@@ -57,6 +59,8 @@ const CreateDonations = () => {
           shortDescription: formData.shortDescription,
           longDescription: formData.longDescription,
           createdAt: new Date().toISOString(),
+          userName: user?.displayName,
+          userEmail: user?.email,
         };
 
         const response = await axiosSecure.post('/api/donations', donationData);
