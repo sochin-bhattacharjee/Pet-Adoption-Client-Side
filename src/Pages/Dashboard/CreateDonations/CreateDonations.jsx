@@ -12,12 +12,15 @@ const CreateDonations = () => {
     lastDate: '',
     shortDescription: '',
     longDescription: '',
+    paused: false,
   });
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value, files, type, checked } = e.target;
     if (name === 'petPicture') {
       setFormData({ ...formData, petPicture: files[0] });
+    } else if (name === 'paused') {
+      setFormData({ ...formData, paused: checked });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -61,6 +64,7 @@ const CreateDonations = () => {
           createdAt: new Date().toISOString(),
           userName: user?.displayName,
           userEmail: user?.email,
+          paused: formData.paused,
         };
 
         const response = await axiosSecure.post('/api/donations', donationData);
@@ -79,6 +83,7 @@ const CreateDonations = () => {
             lastDate: '',
             shortDescription: '',
             longDescription: '',
+            paused: false,
           });
         } else {
           Swal.fire({
@@ -166,6 +171,16 @@ const CreateDonations = () => {
             onChange={handleChange}
             required
             className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+          />
+        </div>
+        <div>
+          <label htmlFor="paused" className="block text-lg font-medium text-gray-700">Pause Campaign</label>
+          <input
+            type="checkbox"
+            name="paused"
+            checked={formData.paused}
+            onChange={handleChange}
+            className="mt-2 p-3 border border-gray-300 rounded-lg"
           />
         </div>
         <div className="text-center">
