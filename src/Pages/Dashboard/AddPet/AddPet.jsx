@@ -7,6 +7,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import { Helmet } from "react-helmet";
 
 const AddPet = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -87,6 +88,11 @@ const AddPet = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <Helmet>
+        <title>
+          Pet Adoption | Add Pet
+        </title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-6">Add a Pet</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">

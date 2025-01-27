@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Typography, Button } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useTable, useSortBy, usePagination } from "react-table";
+import { Helmet } from "react-helmet";
 
 const MyAddedPets = () => {
   const [petsData, setPetsData] = useState([]);
@@ -130,6 +131,11 @@ const MyAddedPets = () => {
 
   return (
     <div className="p-6">
+      <Helmet>
+        <title>
+          Pet Adoption | My Added Pet
+        </title>
+      </Helmet>
       <Card className="h-full w-full overflow-scroll">
         <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
           <thead>

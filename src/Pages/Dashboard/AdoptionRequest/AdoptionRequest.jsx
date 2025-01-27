@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Typography, Button } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const TABLE_HEAD = [
   "Pet Name",
@@ -72,6 +73,11 @@ const AdoptionRequest = () => {
 
   return (
     <Card className="h-full w-full overflow-scroll p-4">
+      <Helmet>
+        <title>
+          Pet Adoption | Adoption Request
+        </title>
+      </Helmet>
       <Typography variant="h4" className="mb-4 text-blue-gray-800">
         Adoption Requests
       </Typography>

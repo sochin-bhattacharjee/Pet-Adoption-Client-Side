@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Input, Button, Card, Typography, Textarea } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { Helmet } from "react-helmet";
 
 const PetUpdate = () => {
   const { petId } = useParams();
@@ -52,6 +53,11 @@ const PetUpdate = () => {
 
   return (
     <div className="p-6 flex justify-center items-center min-h-screen bg-gray-100">
+      <Helmet>
+        <title>
+          Pet Adoption | Login
+        </title>
+      </Helmet>
       <Card className="w-full max-w-3xl shadow-lg p-8 bg-white rounded-xl">
         <Typography variant="h4" className="text-center font-bold mb-6 text-blue-600">
           Update Pet Details

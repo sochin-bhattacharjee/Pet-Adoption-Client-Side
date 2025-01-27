@@ -8,6 +8,7 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const DonationsCampaign = () => {
   const axiosPublic = useAxiosSecure();
@@ -31,6 +32,11 @@ const DonationsCampaign = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
+      <Helmet>
+        <title>
+          Pet Adoption | Donations Campaign
+        </title>
+      </Helmet>
       {data.map((donation) => (
         <Card key={donation._id} className="mt-6 dark:bg-gray-900">
           <div color="blue-gray" className="h-48 p-4 rounded-xl">

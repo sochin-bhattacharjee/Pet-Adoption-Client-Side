@@ -6,6 +6,7 @@ import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 import { Helmet } from "react-helmet";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+import FacebookLogin from './../../Components/FacebookLogin/FacebookLogin';
 
 const SignUp = () => {
   const {
@@ -52,15 +53,15 @@ const SignUp = () => {
       <Helmet>
         <title>Pet Adoption | SignUp</title>
       </Helmet>
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">
+      <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700 dark:text-gray-200">
           Create an Account
         </h2>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
             >
               Full Name
             </label>
@@ -70,7 +71,7 @@ const SignUp = () => {
               {...register("name", {
                 required: "Name is required",
               })}
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -82,7 +83,7 @@ const SignUp = () => {
           <div className="mb-4">
             <label
               htmlFor="photoUrl"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
             >
               Photo URL
             </label>
@@ -92,7 +93,7 @@ const SignUp = () => {
               {...register("photoUrl", {
                 required: "Photo URL is required",
               })}
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
                 errors.photoUrl ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -106,7 +107,7 @@ const SignUp = () => {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
             >
               Email Address
             </label>
@@ -120,7 +121,7 @@ const SignUp = () => {
                   message: "Invalid email address",
                 },
               })}
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -132,7 +133,7 @@ const SignUp = () => {
           <div className="mb-4 relative">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
             >
               Password
             </label>
@@ -151,7 +152,7 @@ const SignUp = () => {
                     "Password must contain at least 6 characters, one uppercase letter, one lowercase letter, one number, and one special character",
                 },
               })}
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -177,8 +178,9 @@ const SignUp = () => {
           </button>
         </form>
         <GoogleLogin />
+        <FacebookLogin />
 
-        <p className="text-center text-sm text-gray-600 mt-6">
+        <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
           Already have an account?{" "}
           <a href="/login" className="text-blue-500 hover:underline font-medium">
             Login here

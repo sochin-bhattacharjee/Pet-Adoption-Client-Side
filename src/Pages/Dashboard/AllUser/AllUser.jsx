@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Button, Card, Typography } from "@material-tailwind/react";
 import { MdDeleteForever } from "react-icons/md";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 const AllUser = () => {
   const axiosSecure = useAxiosSecure();
   const { refetch , data: users = [] } = useQuery({
@@ -77,6 +78,11 @@ const AllUser = () => {
   
   return (
     <div>
+      <Helmet>
+        <title>
+          Pet Adoption | All User
+        </title>
+      </Helmet>
       <div className="flex justify-between items-center sm:my-8">
         <h2 className="text-xl font-semibold">All User</h2>
         <h2 className="text-xl font-semibold">Total User : {users.length}</h2>

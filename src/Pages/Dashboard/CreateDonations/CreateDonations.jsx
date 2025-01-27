@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const CreateDonations = () => {
   const axiosSecure = useAxiosSecure();
@@ -127,6 +128,11 @@ const CreateDonations = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      <Helmet>
+        <title>
+          Pet Adoption | Create Donations
+        </title>
+      </Helmet>
       <h2 className="text-3xl font-bold text-center mb-6">Create a Donation Campaign</h2>
       <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

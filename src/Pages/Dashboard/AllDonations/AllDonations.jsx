@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { Card, Typography } from '@material-tailwind/react';
 import Modal from 'react-modal';
+import { Helmet } from 'react-helmet';
 
 const AllDonations = () => {
   const axiosSecure = useAxiosSecure();
@@ -119,6 +120,11 @@ const AllDonations = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <Helmet>
+        <title>
+          Pet Adoption | All Donation
+        </title>
+      </Helmet>
       <h2 className="text-3xl font-bold text-center mb-6">All Donation Campaigns</h2>
       <Card className="h-full w-full overflow-scroll">
         <table className="w-full min-w-max table-auto text-left">

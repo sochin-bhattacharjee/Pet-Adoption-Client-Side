@@ -3,6 +3,7 @@ import { Button, Card, Typography } from "@material-tailwind/react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 const MyDonations = () => {
   const { user } = useAuth();
@@ -70,6 +71,11 @@ const MyDonations = () => {
 
   return (
     <div className="container mx-auto p-6">
+      <Helmet>
+        <title>
+          Pet Adoption | My Donations
+        </title>
+      </Helmet>
       <h2 className="text-3xl font-bold mb-4">My Donations</h2>
 
       <Card className="h-full w-full overflow-scroll">

@@ -45,18 +45,18 @@ const Login = () => {
           Pet Adoption | Login
         </title>
       </Helmet>
-      <div className="relative w-full lg:w-6/12 bg-white bg-opacity-95 p-8 rounded-lg shadow-2xl z-10">
-        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">
+      <div className="relative w-full lg:w-6/12 bg-white dark:bg-gray-900 bg-opacity-95 p-8 rounded-lg shadow-2xl z-10">
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700 dark:text-gray-200">
           Welcome Back!
         </h2>
-        <p className="text-center text-gray-600 mb-8">
+        <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
           Please login to access your account.
         </p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
             >
               Email Address
             </label>
@@ -70,7 +70,7 @@ const Login = () => {
                   message: "Invalid email address",
                 },
               })}
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -82,7 +82,7 @@ const Login = () => {
           <div className="mb-6 relative">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300"
             >
               Password
             </label>
@@ -96,7 +96,7 @@ const Login = () => {
                   message: "Password must be at least 6 characters long",
                 },
               })}
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent ${
+              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
             />
@@ -122,7 +122,7 @@ const Login = () => {
         <GoogleLogin></GoogleLogin>
         <FacebookLogin></FacebookLogin>
 
-        <p className="text-center text-sm text-gray-600 mt-6">
+        <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
           Don't have an account?{" "}
           <a href="/signUp" className="text-blue-500 hover:underline font-medium">
             SignUp here

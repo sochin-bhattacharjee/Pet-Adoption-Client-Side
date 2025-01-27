@@ -5,6 +5,7 @@ import { Button, Progress, Card, Typography } from "@material-tailwind/react";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import useAuth from "../../../hooks/useAuth";
+import { Helmet } from "react-helmet";
 
 ReactModal.setAppElement("#root");
 
@@ -136,6 +137,11 @@ const MyDonationsCampaign = () => {
 
   return (
     <div className="p-4">
+      <Helmet>
+        <title>
+          Pet Adoption | My Donations Campaign
+        </title>
+      </Helmet>
       <h2 className="text-xl font-semibold mb-4">My Donations Campaign</h2>
 
       <Card className="h-full w-full overflow-scroll">

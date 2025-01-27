@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import useAdmin from "../../../hooks/useAdmin";
 import useAuth from "../../../hooks/useAuth";
 
@@ -7,6 +8,11 @@ const Welcome = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br p-4">
+      <Helmet>
+        <title>
+          Pet Adoption | Welcome
+        </title>
+      </Helmet>
       <div className="bg-white shadow-lg rounded-2xl p-6 w-full max-w-lg text-center">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
           Welcome, {user?.displayName || "Guest"}!
