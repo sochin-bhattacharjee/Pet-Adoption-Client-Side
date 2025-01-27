@@ -11,9 +11,7 @@ const GoogleLogin = () => {
     const handleGoogleSignIn = () => {
         signInWithGoogle()
         .then(result => {
-            // alert(result ,"logged in");
             Swal.fire({
-                position: "top-end",
                 icon: "success",
                 title: "Login successful! Welcome",
                 showConfirmButton: false,

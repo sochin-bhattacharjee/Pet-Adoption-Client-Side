@@ -6,6 +6,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
+import FacebookLogin from "../../Components/FacebookLogin/FacebookLogin";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -119,6 +120,7 @@ const Login = () => {
           </button>
         </form>
         <GoogleLogin></GoogleLogin>
+        <FacebookLogin></FacebookLogin>
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Don't have an account?{" "}
