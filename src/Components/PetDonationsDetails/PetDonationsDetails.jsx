@@ -1,30 +1,73 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
+import { Button } from "@material-tailwind/react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const PetDonationsDetails = () => {
   const { id } = useParams();
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
+  const { user } = useAuth();
   const [donationDetails, setDonationDetails] = useState(null);
+  const [donationAmount, setDonationAmount] = useState("");
+
+  const fetchDonationDetails = async () => {
+    try {
+      const response = await axiosPublic.get(`/api/donations/${id}`);
+      setDonationDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching donation details:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchDonationDetails = async () => {
-      try {
-        const response = await axiosSecure.get(`/api/donations/${id}`);
-        setDonationDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching donation details:", error);
-      }
-    };
-
     fetchDonationDetails();
-  }, [id, axiosSecure]);
+  }, [id, axiosPublic]);
 
   if (!donationDetails) return <div className="text-center text-xl">Loading details...</div>;
 
+  const handleDonate = async () => {
+    if (!donationAmount || donationAmount <= 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid amount",
+        text: "Please enter a valid donation amount!",
+      });
+      return;
+    }
+
+    try {
+      await axiosPublic.post(`/api/donations/${id}`, {
+        donationAmount,
+        userName: user.displayName,
+        userEmail: user.email,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Donation Successful!",
+        text: `You have donated ${donationAmount} USD to this campaign.`,
+      });
+
+      fetchDonationDetails();
+    } catch (error) {
+      console.error("Error making donation:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Donation Failed",
+        text: "Something went wrong. Please try again later.",
+      });
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Pet Donation Details</h1>
+      <header className="mb-6 text-center">
+        <h1 className="text-3xl font-bold text-gray-800">Donate to {donationDetails.petName}</h1>
+        <p className="text-lg text-gray-600">Help {donationDetails.petName} find a forever home</p>
+      </header>
+
       <div className="flex flex-col md:flex-row items-center">
         <div className="md:w-1/3 mb-6 md:mb-0">
           <img
@@ -46,9 +89,19 @@ const PetDonationsDetails = () => {
               <p className="text-xl font-semibold text-blue-600">{donationDetails.donatedAmount} USD</p>
             </div>
           </div>
-          <button className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all">
+          <input
+            type="number"
+            placeholder="Enter Donation Amount"
+            value={donationAmount}
+            onChange={(e) => setDonationAmount(e.target.value)}
+            className="w-full mb-4 p-2 border rounded-lg"
+          />
+          <Button
+            className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-all"
+            onClick={handleDonate}
+          >
             Donate Now
-          </button>
+          </Button>
         </div>
       </div>
     </div>
