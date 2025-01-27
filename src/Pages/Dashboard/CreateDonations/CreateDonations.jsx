@@ -2,11 +2,14 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const CreateDonations = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    petName: '', // New state for pet name
     petPicture: null,
     maxDonationAmount: '',
     lastDate: '',
@@ -16,7 +19,7 @@ const CreateDonations = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value, files, type, checked } = e.target;
+    const { name, value, files, checked } = e.target;
     if (name === 'petPicture') {
       setFormData({ ...formData, petPicture: files[0] });
     } else if (name === 'paused') {
@@ -29,7 +32,14 @@ const CreateDonations = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.petPicture || !formData.maxDonationAmount || !formData.lastDate || !formData.shortDescription || !formData.longDescription) {
+    if (
+      !formData.petName ||
+      !formData.petPicture ||
+      !formData.maxDonationAmount ||
+      !formData.lastDate ||
+      !formData.shortDescription ||
+      !formData.longDescription
+    ) {
       Swal.fire({
         icon: 'error',
         title: 'Please fill out all fields.',
@@ -56,6 +66,7 @@ const CreateDonations = () => {
         const petPictureUrl = imgData.data.url;
 
         const donationData = {
+          petName: formData.petName, // Include pet name
           petPicture: petPictureUrl,
           maxDonationAmount: formData.maxDonationAmount,
           lastDate: formData.lastDate,
@@ -78,6 +89,7 @@ const CreateDonations = () => {
             timer: 1500,
           });
           setFormData({
+            petName: '', // Reset pet name
             petPicture: null,
             maxDonationAmount: '',
             lastDate: '',
@@ -85,6 +97,7 @@ const CreateDonations = () => {
             longDescription: '',
             paused: false,
           });
+          navigate('/dashboard/myDonationsCampaign');
         } else {
           Swal.fire({
             icon: 'error',
@@ -118,6 +131,17 @@ const CreateDonations = () => {
       <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
+            <label htmlFor="petName" className="block text-lg font-medium text-gray-700">Pet Name</label>
+            <input
+              type="text"
+              name="petName"
+              value={formData.petName}
+              onChange={handleChange}
+              required
+              className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+            />
+          </div>
+          <div>
             <label htmlFor="petPicture" className="block text-lg font-medium text-gray-700">Pet Picture</label>
             <input
               type="file"
@@ -127,6 +151,8 @@ const CreateDonations = () => {
               className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
             />
           </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label htmlFor="maxDonationAmount" className="block text-lg font-medium text-gray-700">Maximum Donation Amount</label>
             <input
@@ -138,8 +164,6 @@ const CreateDonations = () => {
               className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
             />
           </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label htmlFor="lastDate" className="block text-lg font-medium text-gray-700">Last Date of Donation</label>
             <input
@@ -151,17 +175,17 @@ const CreateDonations = () => {
               className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
             />
           </div>
-          <div>
-            <label htmlFor="shortDescription" className="block text-lg font-medium text-gray-700">Short Description</label>
-            <input
-              type="text"
-              name="shortDescription"
-              value={formData.shortDescription}
-              onChange={handleChange}
-              required
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
-            />
-          </div>
+        </div>
+        <div>
+          <label htmlFor="shortDescription" className="block text-lg font-medium text-gray-700">Short Description</label>
+          <input
+            type="text"
+            name="shortDescription"
+            value={formData.shortDescription}
+            onChange={handleChange}
+            required
+            className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+          />
         </div>
         <div>
           <label htmlFor="longDescription" className="block text-lg font-medium text-gray-700">Long Description</label>
@@ -184,7 +208,12 @@ const CreateDonations = () => {
           />
         </div>
         <div className="text-center">
-          <button type="submit" className="w-full md:w-1/2 py-3 mt-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition">Create Campaign</button>
+          <button
+            type="submit"
+            className="w-full md:w-1/2 py-3 mt-4 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 transition"
+          >
+            Create Campaign
+          </button>
         </div>
       </form>
     </div>
