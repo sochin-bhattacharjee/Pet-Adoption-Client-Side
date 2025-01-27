@@ -78,6 +78,7 @@ const AllPets = () => {
       <Helmet>
         <title>Pet Adoption | All pet</title>
       </Helmet>
+      <p className="text-2xl font-bold text-center">All Pets</p>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>

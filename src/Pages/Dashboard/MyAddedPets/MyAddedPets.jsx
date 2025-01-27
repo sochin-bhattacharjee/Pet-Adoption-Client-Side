@@ -136,6 +136,7 @@ const MyAddedPets = () => {
           Pet Adoption | My Added Pet
         </title>
       </Helmet>
+      <p className="text-2xl font-bold text-center">My Added Pets</p>
       <Card className="h-full w-full overflow-scroll">
         <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
           <thead>
