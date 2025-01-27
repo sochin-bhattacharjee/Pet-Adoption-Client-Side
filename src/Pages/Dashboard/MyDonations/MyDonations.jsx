@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "@material-tailwind/react";
+import { Button, Card, Typography } from "@material-tailwind/react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
@@ -68,56 +68,57 @@ const MyDonations = () => {
     }
   };
 
-
   return (
     <div className="container mx-auto p-6">
       <h2 className="text-3xl font-bold mb-4">My Donations</h2>
-      
-      <table className="table-auto w-full text-left bg-white shadow-md rounded-md">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b">Pet Image</th>
-            <th className="py-2 px-4 border-b">Pet Name</th>
-            <th className="py-2 px-4 border-b">Donated Amount</th>
-            <th className="py-2 px-4 border-b">Refund</th>
-          </tr>
-        </thead>
-        <tbody>
-          {donations.length > 0 ? (
-            donations.map((donation) => (
-              donation.donations.map((donationItem) => {
-                if (donationItem.userEmail === user.email) {
-                  return (
-                    <tr key={donation._id}>
-                      <td className="py-2 px-4 border-b">
-                        <img src={donation.petPicture} alt="Pet" className="w-16 h-16 object-cover rounded" />
-                      </td>
-                      <td className="py-2 px-4 border-b">{donation.petName}</td>
-                      <td className="py-2 px-4 border-b">{donationItem.donationAmount}</td>
-                      <td className="py-2 px-4 border-b">
-                        <Button
-                          onClick={() => handleRefund(donation._id, donationItem.donationDate)}
-                          color="red"
-                          size="sm"
-                        >
-                          Ask for Refund
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                }
-                return null;
-              })
-            ))
-          ) : (
+
+      <Card className="h-full w-full overflow-scroll">
+        <table className="w-full min-w-max table-auto text-left">
+          <thead>
             <tr>
-              <td colSpan="4" className="py-2 px-4 text-center text-gray-500">
-                No donations found.
-              </td>
+              <th className="py-2 px-4 border-b">Pet Image</th>
+              <th className="py-2 px-4 border-b">Pet Name</th>
+              <th className="py-2 px-4 border-b">Donated Amount</th>
+              <th className="py-2 px-4 border-b">Refund</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {donations.length > 0 ? (
+              donations.map((donation) => (
+                donation.donations.map((donationItem) => {
+                  if (donationItem.userEmail === user.email) {
+                    return (
+                      <tr key={donation._id}>
+                        <td className="py-2 px-4 border-b">
+                          <img src={donation.petPicture} alt="Pet" className="w-16 h-16 object-cover rounded" />
+                        </td>
+                        <td className="py-2 px-4 border-b">{donation.petName}</td>
+                        <td className="py-2 px-4 border-b">{donationItem.donationAmount}</td>
+                        <td className="py-2 px-4 border-b">
+                          <Button
+                            onClick={() => handleRefund(donation._id, donationItem.donationDate)}
+                            color="red"
+                            size="sm"
+                          >
+                            Ask for Refund
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  }
+                  return null;
+                })
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="py-2 px-4 text-center text-gray-500">
+                  No donations found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </Card>
     </div>
   );
 };

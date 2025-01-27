@@ -1,6 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { Card, CardHeader, CardBody, CardFooter, Typography, Button } from "@material-tailwind/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+} from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
 const DonationsCampaign = () => {
@@ -24,22 +30,26 @@ const DonationsCampaign = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
       {data.map((donation) => (
-        <Card key={donation._id} className="mt-6">
-          <CardHeader color="blue-gray" className="relative h-56">
-            <img src={donation.petPicture} alt="pet-image" />
-          </CardHeader>
+        <Card key={donation._id} className="mt-6 dark:bg-gray-900">
+          <div color="blue-gray" className="h-48 p-4 rounded-xl">
+            <img
+              className="w-full h-full object-cover rounded-xl"
+              src={donation.petPicture}
+              alt="card-image"
+            />
+          </div>
           <CardBody>
-            <Typography variant="h5" color="blue-gray" className="mb-2">
+            <Typography variant="h5" color="blue-gray" className="mb-2 dark:text-gray-200">
               {donation.petName}
             </Typography>
-            <Typography>
-              {donation.shortDescription}
-            </Typography>
+            <Typography className="mb-2 dark:text-gray-200">{donation.shortDescription}</Typography>
           </CardBody>
           <CardFooter className="pt-0">
-            <Button onClick={() => handleViewDetails(donation._id)}>View Details</Button>
+            <Button className="dark:bg-gray-200 dark:text-gray-900" onClick={() => handleViewDetails(donation._id)}>
+              View Details
+            </Button>
           </CardFooter>
         </Card>
       ))}
