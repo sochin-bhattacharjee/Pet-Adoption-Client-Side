@@ -1,16 +1,18 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Button, Modal, Progress, Card, Typography } from '@material-tailwind/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useAuth from '../../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const MyDonationsCampaign = () => {
     const axiosSecure = useAxiosSecure();
     const [showDonators, setShowDonators] = useState(false);
     const [selectedDonation, setSelectedDonation] = useState(null);
     const { user } = useAuth();
+    const [donations, setDonations] = useState([]);
 
-    const { data: donations, isLoading, error } = useQuery({
+    const { data: donationData, isLoading, error, refetch } = useQuery({
         queryKey: ["donations", user?.email],
         queryFn: async () => {
             const response = await axiosSecure.get(`/campaigns?email=${user?.email}`);
@@ -19,12 +21,49 @@ const MyDonationsCampaign = () => {
         enabled: !!user?.email,
     });
 
-    const handlePause = async (donationId) => {
-        try {
-            await axiosSecure.patch(`/api/donations/${donationId}/pause`);
-        } catch (error) {
-            console.error("Error pausing the donation:", error);
+    useEffect(() => {
+        if (donationData) {
+            setDonations(donationData);
         }
+    }, [donationData]);
+
+    const pauseUnpauseMutation = useMutation({
+        mutationFn: async (donationId) => {
+            const donation = donations.find(d => d._id === donationId);
+            const newPausedState = !donation.paused;
+            const response = await axiosSecure.patch(`/api/donations/${donationId}/pause`, { paused: newPausedState });
+            
+            return response.data;
+        },
+        onSuccess: (data, variables) => {
+            const updatedDonations = donations.map(donation =>
+                donation._id === variables
+                    ? { ...donation, paused: data.paused }
+                    : donation
+            );
+            setDonations(updatedDonations);
+    
+            Swal.fire({
+                icon: 'success',
+                title: `Donation ${data.paused ? 'paused' : 'unpaused'} successfully!`,
+                showConfirmButton: false,
+                timer: 1500,
+            });
+            refetch();
+        },
+        onError: () => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed to update donation status.',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+    });
+    
+
+    const handlePause = (donationId) => {
+        pauseUnpauseMutation.mutate(donationId);
     };
 
     const handleViewDonators = (donation) => {
@@ -69,7 +108,7 @@ const MyDonationsCampaign = () => {
                             </th>
                             <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
                                 <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
-                                    Donation total Amount
+                                    Total Donation Amount
                                 </Typography>
                             </th>
                             <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
