@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useState, useContext } from "react";
-
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
@@ -79,14 +81,15 @@ const Login = () => {
             )}
           </div>
 
-          <div className="mb-6 relative">
+          <div className="mb-6 ">
             <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-700 mb-2 dark:text-gray-300"
             >
               Password
             </label>
-            <input
+            <div className="relative">
+              <input
               type={showPassword ? "text" : "password"}
               id="password"
               {...register("password", {
@@ -103,10 +106,11 @@ const Login = () => {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-3 top-8 text-gray-600 hover:text-gray-800"
+              className="absolute right-3 bottom-4 text-black dark:text-gray-200 hover:text-gray-800"
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
+            </div>
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
@@ -114,9 +118,9 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center gap-2"
           >
-            Login
+            Login <FaArrowRight />
           </button>
         </form>
         <GoogleLogin></GoogleLogin>

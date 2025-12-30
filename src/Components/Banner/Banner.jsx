@@ -20,7 +20,7 @@ const Banner = () => {
             disableOnInteraction: false,
           }}
         modules={[Pagination, Autoplay]}
-      className="mySwiper h-[250px] md:h-[330px] lg:h-[500px] xl:h-[550px] w-full"
+      className="mySwiper h-[250px] md:h-[330px] lg:h-[550px] xl:h-[600px] w-full mt-1"
       >
         <SwiperSlide className='h-full'><img src={BannerImg1} className='h-full w-full object-cover' alt="" /></SwiperSlide>
         <SwiperSlide className='h-full'><img className='h-full w-full object-cover' src={BannerImg2} alt="" /></SwiperSlide>

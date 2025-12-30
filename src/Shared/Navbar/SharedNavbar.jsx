@@ -32,7 +32,6 @@ const SharedNavbar = () => {
   };
   const profileMenuItems = [
     { label: "My Profile" },
-    { label: "Edit Profile" },
     { label: "Sign Out" },
   ];
 
@@ -68,7 +67,7 @@ const SharedNavbar = () => {
             {
               user?
               <>
-              <NavLink className={({ isActive }) =>
+              <NavLink to="/profile" className={({ isActive }) =>
               `flex gap-2 items-center font-medium ${
                 isActive
                   ? "text-blue-500 underline"
@@ -78,19 +77,9 @@ const SharedNavbar = () => {
               <FaHouseUser />
               {profileMenuItems[0].label}
             </NavLink>
-            <NavLink className={({ isActive }) =>
-              `flex gap-2 items-center font-medium ${
-                isActive
-                  ? "text-blue-500 underline"
-                  : "text-black hover:text-blue-500"
-              }`
-            }>
-              <FaUserEdit />
-              {profileMenuItems[1].label}
-            </NavLink>
             <button onClick={logout} className="flex gap-2 items-center hover:bg-red-100 py-1 px-2 rounded-[7px] font-medium">
               <IoPowerSharp />
-              {profileMenuItems[2].label}
+              {profileMenuItems[1].label}
             </button>
               </>
               :

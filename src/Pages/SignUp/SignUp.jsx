@@ -6,7 +6,10 @@ import GoogleLogin from "../../Components/GoogleLogin/GoogleLogin";
 import { Helmet } from "react-helmet";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
-import FacebookLogin from './../../Components/FacebookLogin/FacebookLogin';
+import FacebookLogin from "./../../Components/FacebookLogin/FacebookLogin";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 const SignUp = () => {
   const {
@@ -53,7 +56,7 @@ const SignUp = () => {
       <Helmet>
         <title>Pet Adoption | SignUp</title>
       </Helmet>
-      <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-md">
+      <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-lg w-full sm:max-w-xl md:max-w-3xl">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-700 dark:text-gray-200">
           Create an Account
         </h2>
@@ -126,7 +129,9 @@ const SignUp = () => {
               }`}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
             )}
           </div>
 
@@ -137,32 +142,36 @@ const SignUp = () => {
             >
               Password
             </label>
-            <input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters long",
-                },
-                pattern: {
-                  value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-                  message:
-                    "Password must contain at least 6 characters, one uppercase letter, one lowercase letter, one number, and one special character",
-                },
-              })}
-              className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-3 top-7 text-gray-600 hover:text-gray-800"
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters long",
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                    message:
+                      "Password must contain at least 6 characters, one uppercase letter, one lowercase letter, one number, and one special character",
+                  },
+                })}
+                className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent dark:bg-gray-800 dark:text-gray-200 ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 bottom-4 text-black dark:text-gray-200 hover:text-gray-800"
+              >
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </button>
+            </div>
+
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.password.message}
@@ -172,9 +181,9 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 flex items-center justify-center gap-2"
           >
-            Sign Up
+            Sign Up <FaArrowRight />
           </button>
         </form>
         <GoogleLogin />
@@ -182,7 +191,10 @@ const SignUp = () => {
 
         <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-500 hover:underline font-medium">
+          <a
+            href="/login"
+            className="text-blue-500 hover:underline font-medium"
+          >
             Login here
           </a>
         </p>

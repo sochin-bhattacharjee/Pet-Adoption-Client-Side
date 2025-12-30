@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { FaGoogle } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
 
@@ -33,7 +33,7 @@ const GoogleLogin = () => {
     return (
         <div>
             <div>
-                <button onClick={handleGoogleSignIn} className='w-full flex items-center justify-center gap-3 bg-gray-300 p-3 mt-2 rounded-md font-bold text-lg'><FaGoogle></FaGoogle>Google</button>
+                <button onClick={handleGoogleSignIn} className='w-full flex items-center justify-center gap-3 bg-gray-300 p-3 mt-2 rounded-md font-bold text-lg'><FcGoogle size={22}/>Google</button>
             </div>
         </div>
     );

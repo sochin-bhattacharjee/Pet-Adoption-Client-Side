@@ -86,10 +86,10 @@ const PetDonationsDetails = () => {
               <h3 className="font-medium text-lg text-gray-700 dark:text-gray-300">Max Donation</h3>
               <p className="text-xl font-semibold text-green-600">{donationDetails.maxDonationAmount} TK</p>
             </div>
-            {/* <div>
+            <div>
               <h3 className="font-medium text-lg text-gray-700">Donated Amount</h3>
               <p className="text-xl font-semibold text-blue-600">{donationDetails.donatedAmount}</p>
-            </div> */}
+            </div>
           </div>
           <input
             type="number"
