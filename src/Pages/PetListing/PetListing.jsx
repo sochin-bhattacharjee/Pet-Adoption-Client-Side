@@ -106,9 +106,9 @@ const PetListing = () => {
           {Array.from(new Array(8)).map((_, index) => (
             <Grid item key={index} className="">
               <Box sx={{ width: "100%" }}>
-                <Skeleton variant="rectangular" className="w-[140px] md:w-[340px] lg:w-[300px] xl:w-[290px]" height={190} />
-                <Skeleton width="60%" sx={{ mt: 1 }} />
-                <Skeleton width="40%" sx={{ mt: 0.5 }} />
+                <Skeleton variant="rectangular" className="w-[140px] sm:w-[260px] md:w-[340px] lg:w-[300px] xl:w-[290px] dark:bg-slate-600 rounded-md" height={190} />
+                <Skeleton className="dark:bg-slate-600" width="60%" sx={{ mt: 1 }} />
+                <Skeleton className="dark:bg-slate-600" width="40%" sx={{ mt: 0.5 }} />
               </Box>
             </Grid>
           ))}

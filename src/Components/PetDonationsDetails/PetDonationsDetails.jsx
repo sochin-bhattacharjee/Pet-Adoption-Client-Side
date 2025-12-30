@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { FaArrowRightToBracket } from "react-icons/fa6";
 import { Button } from "@material-tailwind/react";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 
 const PetDonationsDetails = () => {
   const navigate = useNavigate();
@@ -26,7 +30,29 @@ const PetDonationsDetails = () => {
     fetchDonationDetails();
   }, [id, axiosPublic]);
 
-  if (!donationDetails) return <div className="text-center text-xl">Loading details...</div>;
+  if (!donationDetails) return (
+    <div className="w-[95%] md:max-w-2xl lg:max-w-4xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 shadow-lg rounded-lg animate-pulse">
+        <div className="flex justify-start mb-6">
+          <div className="h-6 w-6 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+        </div>
+        <div className="h-8 bg-gray-300 dark:bg-gray-600 rounded-md mb-3 w-3/4 mx-auto"></div>
+        <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded-md mb-6 w-1/2 mx-auto"></div>
+        <div className="flex flex-col md:flex-row gap-6">
+          <div className="md:w-1/3 h-64 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
+          <div className="md:w-2/3 flex flex-col gap-3">
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded-md w-1/2"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded-md w-full"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded-md w-full"></div>
+            <div className="flex gap-4 mt-4">
+              <div className="h-16 w-1/2 bg-gray-300 dark:bg-gray-600 rounded-md"></div>
+              <div className="h-16 w-1/2 bg-gray-300 dark:bg-gray-600 rounded-md"></div>
+            </div>
+            <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-md w-full mt-4"></div>
+            <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-md w-1/3 mt-2"></div>
+          </div>
+        </div>
+      </div>
+  );
 
   const handleDonate = async () => {
     if (!donationAmount || donationAmount <= 0) {
@@ -64,12 +90,12 @@ const PetDonationsDetails = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 shadow-lg rounded-lg">
-      <header className="mb-6 text-center">
+    <div className="w-[95%] md:max-w-2xl lg:max-w-4xl mx-auto mt-10 p-6 bg-white dark:bg-gray-900 shadow-lg rounded-lg relative">
+      <FaArrowRightToBracket onClick={()=>navigate("/donationsCampaign")} size={20} className="dark:text-slate-200 cursor-pointer rotate-180 absolute top-5 left-5 animate-pulse"/>
+      <header className="mb-6 mt-6 md:mt-0 text-center">
         <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200">Donate to {donationDetails.petName}</h1>
         <p className="text-lg text-gray-600 dark:text-gray-400">Help {donationDetails.petName} find a forever home</p>
       </header>
-
       <div className="flex flex-col md:flex-row items-center">
         <div className="md:w-1/3 mb-6 md:mb-0">
           <img
@@ -87,9 +113,10 @@ const PetDonationsDetails = () => {
               <p className="text-xl font-semibold text-green-600">{donationDetails.maxDonationAmount} TK</p>
             </div>
             <div>
-              <h3 className="font-medium text-lg text-gray-700">Donated Amount</h3>
-              <p className="text-xl font-semibold text-blue-600">{donationDetails.donatedAmount}</p>
+              <h3 className="font-medium text-lg text-gray-700 dark:text-gray-300">Donated Amount</h3>
+              <p className="text-xl font-semibold text-blue-500">{donationDetails.totalDonatedAmount} TK</p>
             </div>
+
           </div>
           <input
             type="number"

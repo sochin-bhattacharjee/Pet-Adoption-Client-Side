@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import useAuth from './../../hooks/useAuth';
+import useAuth from "./../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -24,7 +24,7 @@ const Modal = ({ pet, onClose }) => {
       phone,
       address,
       addedBy: pet.addedBy,
-      dateAdded: new Date().toISOString()
+      dateAdded: new Date().toISOString(),
     };
 
     try {
@@ -34,7 +34,7 @@ const Modal = ({ pet, onClose }) => {
           icon: "success",
           title: "Adoption request submitted successfully!",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
         onClose();
         navigate("/petListing");
@@ -45,18 +45,25 @@ const Modal = ({ pet, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 pt-12 sm:pt-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-40">
-      <div className="bg-white dark:bg-gray-900 p-10 rounded-xl w-96 max-w-lg shadow-lg relative transition-transform transform scale-50 lg:scale-90 z-60">
-        <button 
-          onClick={onClose} 
-          className="absolute top-2 right-2 text-3xl font-bold text-gray-600 hover:text-gray-700 focus:outline-none"
+    <div className="fixed inset-0 pt-12 sm:pt-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-40 overflow-scroll">
+      <div className="bg-white w-[400px] md:w-[600px] xl:w-[750px] dark:bg-gray-900 p-10 rounded-xl shadow-lg relative transition-transform transform scale-50 lg:scale-90 z-50 border border-gray-400 mt-20">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-3xl font-bold text-red-500 dark:text-red-800 hover:text-red-700 focus:outline-none"
         >
           <IoIosCloseCircle />
         </button>
-        <h3 className="text-2xl font-semibold text-center mb-6 text-blue-600">Adopt {pet.name}</h3>
+        <h3 className="text-2xl font-semibold text-center mb-6 text-blue-600">
+          Adopt {pet.name}
+        </h3>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="petName" className="text-sm font-medium text-gray-700 dark:text-gray-400">Pet Name</label>
+            <label
+              htmlFor="petName"
+              className="text-sm font-medium text-gray-700 dark:text-gray-400"
+            >
+              Pet Name
+            </label>
             <input
               type="text"
               id="petName"
@@ -66,7 +73,12 @@ const Modal = ({ pet, onClose }) => {
             />
           </div>
           <div>
-            <label htmlFor="petAge" className="text-sm font-medium text-gray-700 dark:text-gray-400">Pet Age</label>
+            <label
+              htmlFor="petAge"
+              className="text-sm font-medium text-gray-700 dark:text-gray-400"
+            >
+              Pet Age
+            </label>
             <input
               type="text"
               id="petAge"
@@ -76,7 +88,12 @@ const Modal = ({ pet, onClose }) => {
             />
           </div>
           <div>
-            <label htmlFor="phone" className="text-sm font-medium text-gray-700 dark:text-gray-400">Phone Number</label>
+            <label
+              htmlFor="phone"
+              className="text-sm font-medium text-gray-700 dark:text-gray-400"
+            >
+              Phone Number
+            </label>
             <input
               type="text"
               id="phone"
@@ -88,7 +105,12 @@ const Modal = ({ pet, onClose }) => {
             />
           </div>
           <div>
-            <label htmlFor="address" className="text-sm font-medium text-gray-700 dark:text-gray-400">Address</label>
+            <label
+              htmlFor="address"
+              className="text-sm font-medium text-gray-700 dark:text-gray-400"
+            >
+              Address
+            </label>
             <textarea
               id="address"
               value={address}
@@ -98,8 +120,8 @@ const Modal = ({ pet, onClose }) => {
               placeholder="Enter your address"
             ></textarea>
           </div>
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full dark:bg-gray-200 dark:text-black text-white font-bold py-3 rounded-md transition-all duration-300"
           >
             Submit Request

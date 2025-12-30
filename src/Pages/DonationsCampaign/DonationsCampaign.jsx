@@ -9,6 +9,9 @@ import {
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 
 const DonationsCampaign = () => {
   const axiosPublic = useAxiosSecure();
@@ -23,7 +26,6 @@ const DonationsCampaign = () => {
     },
   });
 
-  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading donations</div>;
 
   const handleViewDetails = (id) => {
@@ -31,13 +33,28 @@ const DonationsCampaign = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
+    <div className="w-[90%] mx-auto">
+      <div className="mt-10">
       <Helmet>
         <title>
           Pet Adoption | Donations Campaign
         </title>
       </Helmet>
-      {data.map((donation) => (
+      {isLoading?(
+        <Grid container spacing={3} className="mt-6 p-2 md:p-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {Array.from(new Array(8)).map((_, index) => (
+                    <Grid item key={index} className="">
+                      <Box sx={{ width: "100%" }}>
+                        <Skeleton variant="rectangular" className="w-[170px] sm:w-[310px] md:w-[330px] lg:w-[290px] dark:bg-slate-600 rounded-md" height={190} />
+                        <Skeleton className="dark:bg-slate-600" width="60%" sx={{ mt: 1 }} />
+                        <Skeleton className="dark:bg-slate-600" width="40%" sx={{ mt: 0.5 }} />
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+      ):(
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {data.map((donation) => (
         <Card key={donation._id} className="mt-6 dark:bg-gray-900">
           <div color="blue-gray" className="h-48 p-4 rounded-xl">
             <img
@@ -59,6 +76,10 @@ const DonationsCampaign = () => {
           </CardFooter>
         </Card>
       ))}
+        </div>
+      )}
+      
+    </div>
     </div>
   );
 };

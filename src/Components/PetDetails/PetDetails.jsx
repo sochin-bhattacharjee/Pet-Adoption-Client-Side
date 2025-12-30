@@ -59,7 +59,21 @@ const PetDetails = () => {
           </div>
         </div>
       ) : (
-        <p className="text-center text-gray-600">Loading pet details...</p>
+        <div className="container mx-auto px-4 py-6 animate-pulse">
+        <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+          <div className="w-full md:w-1/2 bg-gray-300 dark:bg-gray-600 h-64 md:h-80 lg:h-[500px] rounded-lg"></div>
+          <div className="w-full md:w-1/2 space-y-4">
+            <div className="h-8 bg-gray-300 dark:bg-gray-600 rounded-md w-3/4"></div>
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded-md w-1/2"></div>
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded-md w-1/2"></div>
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded-md w-1/3"></div>
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded-md w-1/2"></div>
+            <div className="h-32 bg-gray-300 dark:bg-gray-600 rounded-md"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded-md w-2/3"></div>
+            <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded-md w-1/4 mt-2"></div>
+          </div>
+        </div>
+      </div>
       )}
     </div>
   );
