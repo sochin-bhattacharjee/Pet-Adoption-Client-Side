@@ -5,27 +5,34 @@ import {
     CardBody,
     Typography,
     Button,
-  } from "@material-tailwind/react";
+} from "@material-tailwind/react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Skeleton from '@mui/material/Skeleton';
 
 const PetListing = () => {
   const [pets, setPets] = useState([]);
   const [filteredPets, setFilteredPets] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [loading,setLoading] = useState(false)
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPets = async () => {
+      setLoading(true);
       try {
         const response = await axiosSecure.get("/pets");
         const data = response.data;
         setPets(data);
         setFilteredPets(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching pets:", error);
+        setLoading(false);
       }
     };
 
@@ -62,6 +69,7 @@ const PetListing = () => {
         <title>Pet Listing</title>
       </Helmet>
 
+      {/* Search + Filter */}
       <div className="sticky top-14 z-30 dark:bg-gray-900 bg-opacity-70 backdrop-blur-md py-2 sm:py-4 px-2 sm:px-6 rounded-lg shadow-md">
         <div className="flex flex-row justify-between items-center sm:gap-4">
           <h2 className="text-lg md:text-3xl font-bold dark:text-white">
@@ -92,42 +100,48 @@ const PetListing = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-        {filteredPets.length > 0 ? (
-          filteredPets.map((pet) => (
-            <Card key={pet._id} className="mt-6 w-full h-full dark:bg-gray-900">
-            <div color="blue-gray" className="h-48 p-4 rounded-xl">
-              <img className="w-full h-full object-cover rounded-xl"
-                src={pet.image}
-                alt="card-image"
-              />
-            </div>
-            <CardBody className="flex flex-col justify-between py-4 flex-grow lg:gap-2">
-              <Typography variant="h5" color="" className="mb-2 dark:text-white">
-                {pet.name}
-              </Typography>
-              <Typography className="dark:text-gray-300">
-                {pet.shortDescription || "No description available."}
-              </Typography>
-              <Typography className="dark:text-gray-300">
-                <span className="text-black dark:text-white">Age : </span>{pet.age || "No description available."}
-              </Typography>
-              <Typography className="dark:text-gray-300">
-                <span className="text-black dark:text-white">Location : </span>{pet.location || "No description available."}
-              </Typography>
-              <Typography className="dark:text-gray-300">
-                <span className="text-black dark:text-white">Category : </span>{pet.category || "No description available."}
-              </Typography>
-              <Button onClick={() => navigate(`/pet/${pet._id}`)} className="dark:bg-gray-300 dark:text-black">See Details</Button>
-            </CardBody>
-          </Card>
-          ))
-        ) : (
-          <p className="text-center col-span-3 text-gray-500">
-            No pets found.
-          </p>
-        )}
-      </div>
+      {/* Pets List or Skeleton */}
+      {loading ? (
+        <Grid container spacing={3} className="mt-6 p-2 md:p-0">
+          {Array.from(new Array(8)).map((_, index) => (
+            <Grid item key={index} className="">
+              <Box sx={{ width: "100%" }}>
+                <Skeleton variant="rectangular" className="w-[140px] md:w-[340px] lg:w-[300px] xl:w-[290px]" height={190} />
+                <Skeleton width="60%" sx={{ mt: 1 }} />
+                <Skeleton width="40%" sx={{ mt: 0.5 }} />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+          {filteredPets.length > 0 ? (
+            filteredPets.map((pet) => (
+              <Card key={pet._id} className="mt-6 w-full h-full dark:bg-gray-900">
+                <div color="blue-gray" className="h-48 p-4 rounded-xl">
+                  <img className="w-full h-full object-cover rounded-xl" src={pet.image} alt={pet.name} />
+                </div>
+                <CardBody className="flex flex-col justify-between py-4 flex-grow lg:gap-2">
+                  <Typography variant="h5" className="mb-2 dark:text-white">{pet.name}</Typography>
+                  <Typography className="dark:text-gray-300">{pet.shortDescription || "No description available."}</Typography>
+                  <Typography className="dark:text-gray-300">
+                    <span className="text-black dark:text-white">Age: </span>{pet.age || "N/A"}
+                  </Typography>
+                  <Typography className="dark:text-gray-300">
+                    <span className="text-black dark:text-white">Location: </span>{pet.location || "N/A"}
+                  </Typography>
+                  <Typography className="dark:text-gray-300">
+                    <span className="text-black dark:text-white">Category: </span>{pet.category || "N/A"}
+                  </Typography>
+                  <Button onClick={() => navigate(`/pet/${pet._id}`)} className="dark:bg-gray-300 dark:text-black">See Details</Button>
+                </CardBody>
+              </Card>
+            ))
+          ) : (
+            <p className="text-center col-span-3 text-gray-500">No pets found.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
