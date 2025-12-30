@@ -13,23 +13,36 @@ import { useContext, useEffect, useState } from "react";
 import logo from "../../assets/logo/logo.png";
 import { NavLink } from "react-router-dom";
 import { IoPowerSharp } from "react-icons/io5";
-import { FaHouseUser, FaUserEdit } from "react-icons/fa";
+import { FaHouseUser } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
 import DarkModeToggle from "../../ToggleTheme/DarkModeToggle";
 import navImg from "../../assets/navbarImg/user.png"
+import Swal from 'sweetalert2';
 
 
 const SharedNavbar = () => {
   const {user, logOut} = useContext(AuthContext);
-  const logout = () => {
-    logOut()
-      .then(() => {
-        console.log("Logged Out");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const logout = async () => {
+  try {
+    await logOut();
+    console.log("Logged Out");
+    Swal.fire({
+      icon: "success",
+      title: "log out successfully",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } catch (error) {
+    console.log(error);
+    Swal.fire({
+      icon: "error",
+      title: "log out failed",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+};
+
   const profileMenuItems = [
     { label: "My Profile" },
     { label: "Sign Out" },
