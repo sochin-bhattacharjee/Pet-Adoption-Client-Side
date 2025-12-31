@@ -113,7 +113,7 @@ const Dashboard = () => {
 
       {/* Right side div */}
       {/* Content */}
-      <div className="md:w-3/4 w-full h-screen overflow-y-auto bg-gray-100 dark:bg-gray-900 p-2">
+      <div className="md:w-3/4 w-full h-screen overflow-y-auto bg-gray-100 dark:bg-gray-900 md:p-2">
       <div className="flex justify-end sticky top-0 z-50">
           <div className="hidden md:block">
             <DarkModeToggle/>

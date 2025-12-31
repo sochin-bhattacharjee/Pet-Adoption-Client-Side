@@ -23,33 +23,46 @@ const SignUp = () => {
   const axiosPublic = useAxiosPublic();
 
   const onSubmit = async (data) => {
-    try {
-      await createUser(data.email, data.password);
-      await updateUserProfile(data.name, data.photoUrl);
-      const userInfo = {
-        name: data.name,
-        email: data.email,
-      };
-      await axiosPublic.post("/users", userInfo).then((res) => {
-        if (res.data.insertedId) {
-          Swal.fire({
-            icon: "success",
-            title: "Sign up successful! Welcome",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          navigate("/");
-        }
-      });
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Sign up failed",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  };
+  try {
+    await createUser(data.email, data.password);
+    await updateUserProfile(data.name, data.photoUrl);
+
+    const userInfo = {
+      name: data.name,
+      email: data.email,
+    };
+
+    const res = await axiosPublic.post("/users", userInfo);
+
+if (res.data.success) {
+  Swal.fire({
+    icon: "success",
+    title: res.data.existing
+      ? "Welcome back!"
+      : "Sign up successful!",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+  navigate("/");
+}
+
+  } catch (error) {
+  let message = "Sign up failed";
+
+  if (error.code === "auth/email-already-in-use") {
+    message = "Email already in use. Please login.";
+  }
+
+  Swal.fire({
+    icon: "error",
+    title: message,
+    showConfirmButton: false,
+    timer: 2000,
+  });
+}
+
+};
+
 
   return (
     <div className="flex mt-10 justify-center">

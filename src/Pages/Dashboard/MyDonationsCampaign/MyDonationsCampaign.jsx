@@ -9,6 +9,19 @@ import { Helmet } from "react-helmet";
 
 ReactModal.setAppElement("#root");
 
+// Custom Skeleton Loader Component
+const SkeletonRow = () => (
+  <tr className="animate-pulse">
+    {Array(5)
+      .fill(0)
+      .map((_, i) => (
+        <td key={i} className="p-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-full"></div>
+        </td>
+      ))}
+  </tr>
+);
+
 const MyDonationsCampaign = () => {
   const axiosSecure = useAxiosSecure();
   const [showDonators, setShowDonators] = useState(false);
@@ -96,15 +109,13 @@ const MyDonationsCampaign = () => {
     },
   });
 
-  const handlePause = (donationId) => {
-    pauseUnpauseMutation.mutate(donationId);
-  };
+  const handlePause = (donationId) => pauseUnpauseMutation.mutate(donationId);
 
   const handleViewDonators = (donation) => {
     setSelectedDonation(donation);
-    console.log(donation);
     setShowDonators(true);
   };
+
   const handleDelete = (donationId) => {
     Swal.fire({
       title: "Are you sure?",
@@ -115,163 +126,95 @@ const MyDonationsCampaign = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
-      if (result.isConfirmed) {
-        deleteMutation.mutate(donationId);
-      }
+      if (result.isConfirmed) deleteMutation.mutate(donationId);
     });
   };
 
-  const closeModal = () => {
-    setShowDonators(false);
-  };
-
-  if (isLoading) {
-    return <div className="text-center">Loading...</div>;
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-red-500">Error fetching donations.</div>
-    );
-  }
+  const closeModal = () => setShowDonators(false);
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-gray-100 dark:bg-gray-900 min-h-screen">
       <Helmet>
-        <title>
-          Pet Adoption | My Donations Campaign
-        </title>
+        <title>Pet Adoption | My Donations Campaign</title>
       </Helmet>
-      <h2 className="text-xl font-semibold mb-4">My Donations Campaign</h2>
+      <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">
+        My Donations Campaign
+      </h2>
 
-      <Card className="h-full w-full overflow-scroll">
+      <Card className="h-full w-full overflow-scroll bg-white dark:bg-gray-800">
         <table className="w-full min-w-max table-auto text-left">
           <thead>
-            <tr>
-              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  Pet Name
-                </Typography>
-              </th>
-              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  Max Donation Amount
-                </Typography>
-              </th>
-              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  Donation Progress
-                </Typography>
-              </th>
-              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  Total Donation Amount
-                </Typography>
-              </th>
-              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  Actions
-                </Typography>
-              </th>
+            <tr className="bg-gray-50 dark:bg-gray-700">
+              {["Pet Name", "Max Donation", "Progress", "Total Amount", "Actions"].map(
+                (head) => (
+                  <th
+                    key={head}
+                    className="border-b border-gray-200 dark:border-gray-600 p-4"
+                  >
+                    <Typography
+                      variant="small"
+                      className="font-normal opacity-70 text-gray-800 dark:text-gray-200"
+                    >
+                      {head}
+                    </Typography>
+                  </th>
+                )
+              )}
             </tr>
           </thead>
           <tbody>
-            {donations.map((donation) => {
-              const progress =
-                (donation.totalDonatedAmount / donation.maxDonationAmount) *
-                100;
-              const progressPercentage = isNaN(progress)
-                ? 0
-                : progress > 100
-                ? 100
-                : progress;
-              const formattedAmount = isNaN(donation.totalDonatedAmount)
-                ? 0
-                : donation.totalDonatedAmount;
+            {isLoading
+              ? Array(5).fill(0).map((_, i) => <SkeletonRow key={i} />)
+              : donations.map((donation) => {
+                  const progress =
+                    (donation.totalDonatedAmount / donation.maxDonationAmount) * 100;
+                  const progressPercentage = isNaN(progress)
+                    ? 0
+                    : progress > 100
+                    ? 100
+                    : progress;
+                  const formattedAmount = isNaN(donation.totalDonatedAmount)
+                    ? 0
+                    : donation.totalDonatedAmount;
 
-              return (
-                <tr key={donation._id}>
-                  <td className="p-4 border-b border-blue-gray-50">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {donation.petName}
-                    </Typography>
-                  </td>
-                  <td className="p-4 border-b border-blue-gray-50">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      ${donation.maxDonationAmount}
-                    </Typography>
-                  </td>
-
-                  <td className="p-6 border-b border-blue-gray-50 w-full flex items-center">
-                    <Progress
-                      className="bg-red-500 h-2 rounded-full w-[150px]"
-                      color="green"
-                      value={progressPercentage}
-                    />
-                    <span className="ml-2 text-sm ">
-                      {Math.round(progressPercentage)}%
-                    </span>
-                  </td>
-                  <td className="p-4 border-b border-blue-gray-50">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      ${formattedAmount}
-                    </Typography>
-                  </td>
-                  <td className="p-4 border-b border-blue-gray-50 flex space-x-2">
-                    <Button
-                      onClick={() => handlePause(donation._id)}
-                      color={donation.paused ? "red" : "green"}
-                    >
-                      {donation.paused ? "Unpause" : "Pause"}
-                    </Button>
-                    <Button
-                      onClick={() => handleViewDonators(donation)}
-                      color="blue"
-                    >
-                      View Donators
-                    </Button>
-                    <Button
-                      onClick={() => handleDelete(donation._id)}
-                      color="red"
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
+                  return (
+                    <tr key={donation._id} className="border-b border-gray-200 dark:border-gray-700">
+                      <td className="p-4 text-gray-900 dark:text-gray-100">{donation.petName}</td>
+                      <td className="p-4 text-gray-900 dark:text-gray-100">${donation.maxDonationAmount}</td>
+                      <td className="p-4 flex items-center">
+                        <Progress
+                          className="bg-gray-300 dark:bg-gray-600 h-2 rounded-full w-[150px]"
+                          color="green"
+                          value={progressPercentage}
+                        />
+                        <span className="ml-2 text-sm text-gray-700 dark:text-gray-200">
+                          {Math.round(progressPercentage)}%
+                        </span>
+                      </td>
+                      <td className="p-4 text-gray-900 dark:text-gray-100">${formattedAmount}</td>
+                      <td className="p-4 flex space-x-2">
+                        <Button
+                          onClick={() => handlePause(donation._id)}
+                          color={donation.paused ? "red" : "green"}
+                        >
+                          {donation.paused ? "Unpause" : "Pause"}
+                        </Button>
+                        <Button
+                          onClick={() => handleViewDonators(donation)}
+                          color="blue"
+                        >
+                          View Donators
+                        </Button>
+                        <Button
+                          onClick={() => handleDelete(donation._id)}
+                          color="red"
+                        >
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
           </tbody>
         </table>
       </Card>
@@ -279,12 +222,11 @@ const MyDonationsCampaign = () => {
       <ReactModal
         isOpen={showDonators}
         onRequestClose={closeModal}
-        className="max-w-[90%] w-full md:max-w-xl p-6 bg-white rounded-lg shadow-lg relative"
-        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+        className="max-w-[90%] w-full z- md:max-w-lg p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg relative text-gray-900 dark:text-gray-100"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-center mr-5 md:mr-10"
       >
         {selectedDonation ? (
-          selectedDonation.donations &&
-          selectedDonation.donations.length > 0 ? (
+          selectedDonation.donations && selectedDonation.donations.length > 0 ? (
             <>
               <h3 className="text-lg font-semibold mb-4">
                 Donators for {selectedDonation.petName}
@@ -295,10 +237,10 @@ const MyDonationsCampaign = () => {
                     <div>
                       {donator.userName} - ${donator.donationAmount}
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-sm text-gray-500 dark:text-gray-300">
                       Email: {donator.userEmail}
                     </div>
-                    <div className="text-xs text-gray-400">
+                    <div className="text-xs text-gray-400 dark:text-gray-400">
                       Donated on:{" "}
                       {new Date(donator.donationDate).toLocaleDateString()}
                     </div>
@@ -308,14 +250,14 @@ const MyDonationsCampaign = () => {
             </>
           ) : (
             <div className="text-center">
-              <h3 className="text-lg font-semibold text-gray-700">
+              <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
                 No donations found for {selectedDonation.petName}.
               </h3>
             </div>
           )
         ) : (
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-gray-700">
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
               No donation selected.
             </h3>
           </div>

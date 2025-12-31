@@ -10,7 +10,7 @@ const CreateDonations = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    petName: '', // New state for pet name
+    petName: '', 
     petPicture: null,
     maxDonationAmount: '',
     lastDate: '',
@@ -67,7 +67,7 @@ const CreateDonations = () => {
         const petPictureUrl = imgData.data.url;
 
         const donationData = {
-          petName: formData.petName, // Include pet name
+          petName: formData.petName,
           petPicture: petPictureUrl,
           maxDonationAmount: formData.maxDonationAmount,
           lastDate: formData.lastDate,
@@ -90,7 +90,7 @@ const CreateDonations = () => {
             timer: 1500,
           });
           setFormData({
-            petName: '', // Reset pet name
+            petName: '',
             petPicture: null,
             maxDonationAmount: '',
             lastDate: '',
@@ -127,91 +127,124 @@ const CreateDonations = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
       <Helmet>
-        <title>
-          Pet Adoption | Create Donations
-        </title>
+        <title>Pet Adoption | Create Donations</title>
       </Helmet>
-      <h2 className="text-3xl font-bold text-center mb-6">Create a Donation Campaign</h2>
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-lg p-6 space-y-4">
+      <h2 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-gray-100">
+        Create a Donation Campaign
+      </h2>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 space-y-4"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="petName" className="block text-lg font-medium text-gray-700">Pet Name</label>
+            <label
+              htmlFor="petName"
+              className="block text-lg font-medium text-gray-700 dark:text-gray-300"
+            >
+              Pet Name
+            </label>
             <input
               type="text"
               name="petName"
               value={formData.petName}
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+              className="w-full mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
           <div>
-            <label htmlFor="petPicture" className="block text-lg font-medium text-gray-700">Pet Picture</label>
+            <label
+              htmlFor="petPicture"
+              className="block text-lg font-medium text-gray-700 dark:text-gray-300"
+            >
+              Pet Picture
+            </label>
             <input
               type="file"
               name="petPicture"
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+              className="w-full mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label htmlFor="maxDonationAmount" className="block text-lg font-medium text-gray-700">Maximum Donation Amount</label>
+            <label
+              htmlFor="maxDonationAmount"
+              className="block text-lg font-medium text-gray-700 dark:text-gray-300"
+            >
+              Maximum Donation Amount
+            </label>
             <input
               type="number"
               name="maxDonationAmount"
               value={formData.maxDonationAmount}
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+              className="w-full mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
           <div>
-            <label htmlFor="lastDate" className="block text-lg font-medium text-gray-700">Last Date of Donation</label>
+            <label
+              htmlFor="lastDate"
+              className="block text-lg font-medium text-gray-700 dark:text-gray-300"
+            >
+              Last Date of Donation
+            </label>
             <input
               type="date"
               name="lastDate"
               value={formData.lastDate}
               onChange={handleChange}
               required
-              className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+              className="w-full mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
           </div>
         </div>
         <div>
-          <label htmlFor="shortDescription" className="block text-lg font-medium text-gray-700">Short Description</label>
+          <label
+            htmlFor="shortDescription"
+            className="block text-lg font-medium text-gray-700 dark:text-gray-300"
+          >
+            Short Description
+          </label>
           <input
             type="text"
             name="shortDescription"
             value={formData.shortDescription}
             onChange={handleChange}
             required
-            className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+            className="w-full mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           />
         </div>
         <div>
-          <label htmlFor="longDescription" className="block text-lg font-medium text-gray-700">Long Description</label>
+          <label
+            htmlFor="longDescription"
+            className="block text-lg font-medium text-gray-700 dark:text-gray-300"
+          >
+            Long Description
+          </label>
           <textarea
             name="longDescription"
             value={formData.longDescription}
             onChange={handleChange}
             required
-            className="w-full mt-2 p-3 border border-gray-300 rounded-lg"
+            className="w-full mt-2 p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           />
         </div>
-        <div>
-          <label htmlFor="paused" className="block text-lg font-medium text-gray-700">Pause Campaign</label>
+        <div className="flex items-center space-x-3">
           <input
             type="checkbox"
             name="paused"
             checked={formData.paused}
             onChange={handleChange}
-            className="mt-2 p-3 border border-gray-300 rounded-lg"
+            className="w-5 h-5 text-blue-600 focus:ring focus:ring-blue-300 rounded"
           />
+          <label className="text-gray-700 dark:text-gray-300">Pause Campaign</label>
         </div>
         <div className="text-center">
           <button
