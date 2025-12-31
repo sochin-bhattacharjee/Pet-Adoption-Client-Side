@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import {
-    Card,
-    CardBody,
-    Typography,
-    Button,
-} from "@material-tailwind/react";
+import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Skeleton from '@mui/material/Skeleton';
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 
 const PetListing = () => {
   const [pets, setPets] = useState([]);
   const [filteredPets, setFilteredPets] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
 
@@ -64,7 +59,7 @@ const PetListing = () => {
   };
 
   return (
-    <div className="container mx-auto sm:p-6">
+    <div className="container mx-auto sm:p-6 mt-4">
       <Helmet>
         <title>Pet Listing</title>
       </Helmet>
@@ -106,9 +101,21 @@ const PetListing = () => {
           {Array.from(new Array(8)).map((_, index) => (
             <Grid item key={index} className="">
               <Box sx={{ width: "100%" }}>
-                <Skeleton variant="rectangular" className="w-[140px] sm:w-[260px] md:w-[340px] lg:w-[300px] xl:w-[290px] dark:bg-slate-600 rounded-md" height={190} />
-                <Skeleton className="dark:bg-slate-600" width="60%" sx={{ mt: 1 }} />
-                <Skeleton className="dark:bg-slate-600" width="40%" sx={{ mt: 0.5 }} />
+                <Skeleton
+                  variant="rectangular"
+                  className="w-[140px] sm:w-[260px] md:w-[340px] lg:w-[300px] xl:w-[290px] dark:bg-slate-600 rounded-md"
+                  height={190}
+                />
+                <Skeleton
+                  className="dark:bg-slate-600"
+                  width="60%"
+                  sx={{ mt: 1 }}
+                />
+                <Skeleton
+                  className="dark:bg-slate-600"
+                  width="40%"
+                  sx={{ mt: 0.5 }}
+                />
               </Box>
             </Grid>
           ))}
@@ -117,28 +124,53 @@ const PetListing = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
           {filteredPets.length > 0 ? (
             filteredPets.map((pet) => (
-              <Card key={pet._id} className="mt-6 w-full h-full dark:bg-gray-900">
+              <Card
+                key={pet._id}
+                className="mt-6 w-full h-full dark:bg-gray-900"
+              >
                 <div color="blue-gray" className="h-48 p-4 rounded-xl">
-                  <img className="w-full h-full object-cover rounded-xl" src={pet.image} alt={pet.name} />
+                  <img
+                    className="w-full h-full object-cover rounded-xl"
+                    src={pet.image}
+                    alt={pet.name}
+                  />
                 </div>
                 <CardBody className="flex flex-col justify-between py-4 flex-grow lg:gap-2">
-                  <Typography variant="h5" className="mb-2 dark:text-white">{pet.name}</Typography>
-                  <Typography className="dark:text-gray-300">{pet.shortDescription || "No description available."}</Typography>
-                  <Typography className="dark:text-gray-300">
-                    <span className="text-black dark:text-white">Age: </span>{pet.age || "N/A"}
+                  <Typography variant="h5" className="mb-2 dark:text-white">
+                    {pet.name}
                   </Typography>
                   <Typography className="dark:text-gray-300">
-                    <span className="text-black dark:text-white">Location: </span>{pet.location || "N/A"}
+                    {pet.shortDescription || "No description available."}
                   </Typography>
                   <Typography className="dark:text-gray-300">
-                    <span className="text-black dark:text-white">Category: </span>{pet.category || "N/A"}
+                    <span className="text-black dark:text-white">Age: </span>
+                    {pet.age || "N/A"}
                   </Typography>
-                  <Button onClick={() => navigate(`/pet/${pet._id}`)} className="dark:bg-gray-300 dark:text-black">See Details</Button>
+                  <Typography className="dark:text-gray-300">
+                    <span className="text-black dark:text-white">
+                      Location:{" "}
+                    </span>
+                    {pet.location || "N/A"}
+                  </Typography>
+                  <Typography className="dark:text-gray-300">
+                    <span className="text-black dark:text-white">
+                      Category:{" "}
+                    </span>
+                    {pet.category || "N/A"}
+                  </Typography>
+                  <Button
+                    onClick={() => navigate(`/pet/${pet._id}`)}
+                    className="dark:bg-gray-300 dark:text-black"
+                  >
+                    See Details
+                  </Button>
                 </CardBody>
               </Card>
             ))
           ) : (
-            <p className="text-center col-span-3 text-gray-500">No pets found.</p>
+            <p className="text-center col-span-3 text-gray-500">
+              No pets found.
+            </p>
           )}
         </div>
       )}
