@@ -4,19 +4,33 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet";
 
+/* Skeleton Component */
+const PetsSkeleton = () => {
+  return (
+    <div className="space-y-4">
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="h-14 w-full rounded-md bg-gray-200 dark:bg-gray-700 animate-pulse"
+        />
+      ))}
+    </div>
+  );
+};
+
 const AllPets = () => {
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
 
   const {
-    data: pets,
+    data: pets = [],
     isLoading,
     error,
   } = useQuery({
     queryKey: ["pets"],
     queryFn: async () => {
-      const response = await axiosSecure.get("/admin/pets");
-      return response.data;
+      const res = await axiosSecure.get("/admin/pets");
+      return res.data;
     },
   });
 
@@ -26,12 +40,7 @@ const AllPets = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["pets"]);
-      Swal.fire({
-        title: "Deleted!",
-        text: "Pet has been deleted successfully.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      Swal.fire("Deleted!", "Pet deleted successfully.", "success");
     },
   });
 
@@ -39,159 +48,162 @@ const AllPets = () => {
     mutationFn: async ({ petId, updatedData }) => {
       await axiosSecure.put(`/admin/pets/${petId}`, updatedData);
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries(["pets"]);
+      const statusText = variables.updatedData.adopted
+    ? "as Adopted"
+    : "as Not Adopted";
+
       Swal.fire({
-        title: "Success!",
-        text: "Pet status has been updated successfully.",
         icon: "success",
-        confirmButtonText: "OK",
+        title: "Updated!",
+        text: `${variables.petName} ${statusText}`,
       });
     },
   });
 
-  const handleUpdate = (petId, adoptedStatus) => {
-    const updatedData = { adopted: !adoptedStatus };
-    updatePetMutation.mutate({ petId, updatedData });
+  const handleUpdate = (id, adopted, name) => {
+    updatePetMutation.mutate({
+      petId: id,
+      updatedData: { adopted: !adopted },
+      petName: name,
+    });
   };
 
-  const handleDelete = (petId) => {
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Do you want to delete this pet?",
+      text: "This pet will be removed!",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, keep it",
     }).then((result) => {
       if (result.isConfirmed) {
-        deletePetMutation.mutate(petId);
+        deletePetMutation.mutate(id);
       }
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading pets: {error.message}</div>;
+  if (error) {
+    return <p className="text-red-500">Failed to load pets</p>;
+  }
 
   return (
-    <Card className="h-full w-full overflow-scroll">
+    <div className="p-4">
       <Helmet>
-        <title>Pet Adoption | All pet</title>
+        <title>Pet Adoption | All Pets</title>
       </Helmet>
-      <p className="text-2xl font-bold text-center">All Pets</p>
-      <table className="w-full min-w-max table-auto text-left">
-        <thead>
-          <tr>
-            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none opacity-70"
-              >
-                No
-              </Typography>
-            </th>
-            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none opacity-70"
-              >
-                Pet Name
-              </Typography>
-            </th>
-            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none opacity-70"
-              >
-                Status
-              </Typography>
-            </th>
-            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none opacity-70"
-              >
-                Update status
-              </Typography>
-            </th>
-            <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none opacity-70"
-              >
-                Delete pet
-              </Typography>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {pets.map(({ _id, name, adopted }, index) => {
-            const isLast = index === pets.length - 1;
-            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
-            return (
-              <tr key={_id}>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {index + 1}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {name}
-                  </Typography>
-                </td>
+      <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800 dark:text-gray-100">
+        All Pets
+      </h2>
 
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {adopted ? "Adopted" : "Not Adopted"}
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    as="button"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium border-2 border-green-600 px-2 py-1 rounded hover:bg-green-600 hover:text-white"
-                    onClick={() => handleUpdate(_id, adopted)}
+      <Card className="p-4 bg-white dark:bg-gray-900 shadow-md">
+        {/* Skeleton */}
+        {isLoading && <PetsSkeleton />}
+
+        {/* Desktop Table */}
+        {!isLoading && (
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full table-auto text-left">
+              <thead>
+                <tr className="bg-gray-100 dark:bg-gray-800">
+                  {["No", "Pet Name", "Status", "Update", "Delete"].map(
+                    (head) => (
+                      <th key={head} className="p-3">
+                        <Typography className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                          {head}
+                        </Typography>
+                      </th>
+                    )
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {pets.map(({ _id, name, adopted }, index) => (
+                  <tr key={_id} className="border-b dark:border-gray-700">
+                    <td className="p-3 dark:text-slate-300">{index + 1}</td>
+                    <td className="p-3 dark:text-slate-300">{name}</td>
+                    <td className="p-3 ">
+                      {adopted ? (
+                        <div className="text-green-600">Adopted</div>
+                      ) : (
+                        <div className="text-yellow-500 dark:text-yellow-600">
+                          Not Adopted
+                        </div>
+                      )}
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => handleUpdate(_id, adopted, name)}
+                        className="px-3 py-1 border border-green-600 rounded text-green-600 hover:bg-green-600 hover:text-white transition"
+                      >
+                        Update
+                      </button>
+                    </td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => handleDelete(_id)}
+                        className="px-3 py-1 border border-red-600 rounded text-red-600 hover:bg-red-600 hover:text-white transition"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Mobile Cards*/}
+        {!isLoading && (
+          <div className="md:hidden space-y-4">
+            {pets.map(({ _id, name, adopted }, index) => (
+              <div
+                key={_id}
+                className="border rounded-lg p-4 bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+              >
+                <p className="text-sm text-gray-500 dark:text-gray-300">
+                  #{index + 1}
+                </p>
+                <p className="font-semibold text-lg dark:text-gray-300">
+                  {name}
+                </p>
+                <p className="text-sm mb-3 dark:text-gray-300">
+                  Status:{" "}
+                  <span className="font-medium">
+                    {adopted ? (
+                      <div className="text-green-600">Adopted</div>
+                    ) : (
+                      <div className="text-yellow-500 dark:text-yellow-600">
+                        Not Adopted
+                      </div>
+                    )}
+                  </span>
+                </p>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleUpdate(_id, adopted, name)}
+                    className="flex-1 border border-green-600 text-green-600 rounded py-1 hover:bg-green-600 hover:text-white"
                   >
                     Update
-                  </Typography>
-                </td>
-                <td className={classes}>
-                  <Typography
-                    as="button"
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium ml-2 border-2 border-red-600 px-2 py-1 rounded hover:bg-red-600 hover:text-white"
+                  </button>
+
+                  <button
                     onClick={() => handleDelete(_id)}
+                    className="flex-1 border border-red-600 text-red-600 rounded py-1 hover:bg-red-600 hover:text-white"
                   >
                     Delete
-                  </Typography>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </Card>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+    </div>
   );
 };
 
