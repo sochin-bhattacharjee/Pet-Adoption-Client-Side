@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Input, Button, Card, Typography, Textarea } from "@material-tailwind/react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Helmet } from "react-helmet";
+import Swal from "sweetalert2";
 
 const PetUpdate = () => {
   const { petId } = useParams();
@@ -29,17 +30,29 @@ const PetUpdate = () => {
         console.error("Error fetching pet details:", error);
       }
     };
-
     fetchPet();
   }, [petId, axiosSecure]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axiosSecure.patch(`/update-pet/${petId}`, petData);
-      navigate("/dashboard/myAddPet");
-    } catch (error) {
-      console.error("Error updating pet:", error);
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to update this pet's details?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, update!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await axiosSecure.patch(`/update-pet/${petId}`, petData);
+        Swal.fire("Success!", "Pet details updated.", "success");
+        navigate("/dashboard/myAddPet");
+      } catch (error) {
+        console.error("Error updating pet:", error);
+        Swal.fire("Error!", "Failed to update pet details.", "error");
+      }
     }
   };
 
@@ -52,16 +65,19 @@ const PetUpdate = () => {
   };
 
   return (
-    <div className="p-6 flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="p-6 flex justify-center items-center min-h-screen bg-gray-100 dark:bg-gray-900">
       <Helmet>
-        <title>
-          Pet Adoption | Login
-        </title>
+        <title>Pet Adoption | Update Pet</title>
       </Helmet>
-      <Card className="w-full max-w-3xl shadow-lg p-8 bg-white rounded-xl">
-        <Typography variant="h4" className="text-center font-bold mb-6 text-blue-600">
+
+      <Card className="w-full max-w-3xl shadow-lg p-8 bg-white dark:bg-gray-800 rounded-xl">
+        <Typography
+          variant="h4"
+          className="text-center font-bold mb-6 text-gray-900 dark:text-gray-100"
+        >
           Update Pet Details
         </Typography>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
             label="Pet Name"
@@ -69,7 +85,7 @@ const PetUpdate = () => {
             name="name"
             onChange={handleChange}
             required
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
           <Input
             label="Age"
@@ -77,7 +93,7 @@ const PetUpdate = () => {
             name="age"
             onChange={handleChange}
             required
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
           <Input
             label="Category"
@@ -85,14 +101,14 @@ const PetUpdate = () => {
             name="category"
             onChange={handleChange}
             required
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
           <Input
             label="Breed"
             value={petData.breed}
             name="breed"
             onChange={handleChange}
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
           <Input
             label="Location"
@@ -100,7 +116,7 @@ const PetUpdate = () => {
             name="location"
             onChange={handleChange}
             required
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
           <Textarea
             label="Short Description"
@@ -108,14 +124,14 @@ const PetUpdate = () => {
             name="shortDescription"
             onChange={handleChange}
             required
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
           <Textarea
             label="Long Description"
             value={petData.longDescription}
             name="longDescription"
             onChange={handleChange}
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
           <Input
             label="Image URL"
@@ -123,9 +139,10 @@ const PetUpdate = () => {
             name="image"
             onChange={handleChange}
             required
-            className="w-full"
+            className="w-full dark:text-gray-200"
           />
-          <label className="flex items-center space-x-3">
+
+          <div className="flex items-center space-x-3">
             <input
               type="checkbox"
               checked={petData.adopted}
@@ -136,11 +153,16 @@ const PetUpdate = () => {
                   adopted: e.target.checked,
                 }))
               }
-              className="w-5 h-5 text-blue-600 focus:ring focus:ring-blue-300 rounded"
+              className="w-5 h-5 cursor-pointer text-blue-600 focus:ring focus:ring-blue-300 rounded dark:bg-gray-700 dark:checked:bg-blue-500"
             />
-            <span className="text-gray-700">Adopted</span>
-          </label>
-          <Button type="submit" color="blue" className="w-full py-3 text-lg font-bold">
+            <span className="text-gray-700 dark:text-gray-200">Adopted</span>
+          </div>
+
+          <Button
+            type="submit"
+            color="blue"
+            className="w-full py-3 text-lg font-bold"
+          >
             Update Pet
           </Button>
         </form>
